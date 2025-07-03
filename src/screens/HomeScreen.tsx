@@ -11,7 +11,6 @@ import { useNavigation, NavigationProp } from "@react-navigation/native";
 
 // Expo image picker & manipulator
 import * as ImagePicker from "expo-image-picker";
-import * as ImageManipulator from "expo-image-manipulator";
 
 // NetInfo
 import { useNetInfo } from "@react-native-community/netinfo";

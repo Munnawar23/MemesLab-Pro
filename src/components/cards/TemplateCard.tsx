@@ -1,7 +1,7 @@
 import React from 'react';
 import {TouchableOpacity,Image,Text,View} from 'react-native';
 
-import styles from '@styles/componentStyles/cards/TemplateCards.styles';
+import styles from '@styles/componentStyles/cards/TemplateCard.styles';
 import { themeColors } from '@styles/globalStyles/themeColors'; 
 
 interface Props {

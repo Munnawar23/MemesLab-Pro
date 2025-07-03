@@ -6,14 +6,18 @@ export interface AppTheme {
   secondaryText: string;
   border: string;
   placeholder: string;
+  badgeBackground: string; // added
+  badgeText: string;       // added
 }
 
 export const themeColors: AppTheme = {
-  background: '#fefce8',        // Soft light yellow background
-  card: '#ffffff',              // Clean white cards
-  text: '#365314',              // Deep forest green for text
-  primary: '#84cc16',           // Fresh lime green
-  secondaryText: '#71717a',     // Warm gray for secondary text
-  border: '#fde047',            // Gentle yellow border
-  placeholder: '#a3a3a3',       // Neutral gray placeholder
+  background: '#FFFDF7',        // Almost white with a hint of warmth
+  card: '#FFFFFF',              // Pure white cards
+  text: '#000000',              // Black text for readability
+  primary: '#FEE440',           // Soft light yellow for buttons & highlights (#FEE440)
+  secondaryText: '#7D7D7D',     // Medium gray for secondary text
+  border: '#F7DC6F',            // Light muted yellow border
+  placeholder: '#BDBDBD',       // Light gray placeholder
+  badgeBackground: '#000000',   // Solid black badge
+  badgeText: '#FFFFFF',         // White text on badges
 };
