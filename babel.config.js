@@ -15,7 +15,8 @@ module.exports = function (api) {
             '@assets': './src/assets',
             '@utils': './src/utils',
             '@services': './src/services',
-            '@types': './src/types'
+            '@types': './src/types',
+            '@constants': './src/constants'
           }
         }
       ]

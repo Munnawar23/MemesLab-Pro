@@ -1,12 +1,17 @@
-import { View, Text } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import AppNavigator from '@navigation/AppNavigator'
 
-const App = () => {
+export default function App() {
   return (
-    <View>
-      <Text>App</Text>
+    <View style={styles.wrapper}>
+      <AppNavigator />
     </View>
   )
 }
 
-export default App
+const styles = StyleSheet.create({
+  wrapper:{
+    flex: 1
+  }
+})

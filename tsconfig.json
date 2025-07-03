@@ -11,7 +11,8 @@
       "@assets/*": ["assets/*"],
       "@utils/*": ["utils/*"],
       "@services/*": ["services/*"],
-      "@types/*": ["types/*"]
+      "@types/*": ["types/*"],
+      "@constants/*": ["constants/*"]
     }
   }
 }

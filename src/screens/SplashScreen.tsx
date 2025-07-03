@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { useNavigation, StackActions } from '@react-navigation/native';
-import { styles } from '@styles/screensStyles/SplashScreen.styles';
+import { styles } from '@styles/screenStyles/SplashScreen.styles';
 
 const SplashScreen = () => {
   const navigation = useNavigation();

@@ -2,9 +2,12 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
+//screens
 import HomeScreen from '@screens/HomeScreen';
 import MyMemesScreen from '@screens/MyMemesScreen';
 import FavoritesScreen from '@screens/FavouritesScreen';
+
+import { themeColors } from '@styles/globalStyles/themeColors';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,16 +20,24 @@ const MainTabNavigator = () => {
           'My Memes': 'images-outline',
           Favorites: 'star-outline',
         };
-
         const iconName = icons[route.name] || 'help';
 
         return {
-          headerShown: false, 
-          tabBarActiveTintColor: '#ff4c60',
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: themeColors.primary,
+            height: 85,
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 22,
+          },
+          tabBarActiveTintColor: themeColors.primary,
           tabBarInactiveTintColor: 'gray',
           tabBarStyle: {
-            backgroundColor: '#ffffff',
-            borderTopColor: '#e0e0e0',
+            backgroundColor: themeColors.card,
+            borderTopColor: themeColors.border,
           },
           tabBarIcon: ({ focused, color, size }) => (
             <Ionicons
