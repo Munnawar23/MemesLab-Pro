@@ -1,35 +1,30 @@
 import React from 'react';
-import {TouchableOpacity,Image,Text,View} from 'react-native';
-
+import {
+  TouchableOpacity,
+  Image,
+  Text,
+  View,
+  ImageSourcePropType, // A better type than 'any' for image sources.
+} from 'react-native';
 import styles from '@styles/componentStyles/cards/TemplateCard.styles';
-import { themeColors } from '@styles/globalStyles/themeColors'; 
 
 interface Props {
-  image: any;              // Image source (require or { uri })
-  title: string;           // Text label shown below image
-  onPress: () => void;     // Triggered when card is tapped
+  image: ImageSourcePropType;
+  title: string;
+  onPress: () => void;
 }
 
-/**
- * TemplateCard Component
- * - Shows a meme template image and title
- * - Triggers navigation/action on tap
- * - Uses static themeColors (no useTheme hook)
- */
-const TemplateCard = ({ image, title, onPress }: Props) => {
-  return (
-    <TouchableOpacity onPress={onPress} style={styles.cardContainer}>
-      {/* Card Image */}
-      <View style={styles.card}>
-        <Image source={image} style={styles.cardImage} />
-      </View>
-
-      {/* Title below image */}
-      <Text style={[styles.cardTitle, { color: themeColors.text }]} numberOfLines={1}>
-        {title}
-      </Text>
-    </TouchableOpacity>
-  );
-};
+// Renders a meme template card with an image and a title below it.
+// Designed to be used in a two-column grid.
+const TemplateCard = ({ image, title, onPress }: Props) => (
+  <TouchableOpacity onPress={onPress} style={styles.cardContainer} activeOpacity={0.8}>
+    <View style={styles.card}>
+      <Image source={image} style={styles.cardImage} />
+    </View>
+    <Text style={styles.cardTitle} numberOfLines={1}>
+      {title}
+    </Text>
+  </TouchableOpacity>
+);
 
 export default TemplateCard;

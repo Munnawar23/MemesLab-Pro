@@ -1,27 +1,46 @@
-export const carouselData = [
+import { Image } from 'react-native';
+import { allMemes } from '@constants/memes';
+
+export const getCarouselData = (
+  handleNavigateToCreate: (uri: string) => void,
+  navigateToTemplates: () => void,
+  showImportantMessage: () => void,
+  withNetworkCheck: (action: () => void) => () => void, // add this
+) => {
+  const handleRandomMeme = () => {
+    if (!allMemes.length) return;
+
+    const randomIndex = Math.floor(Math.random() * allMemes.length);
+    const randomMeme = allMemes[randomIndex];
+
+    const resolved = Image.resolveAssetSource(randomMeme.image);
+    const randomUri = resolved?.uri;
+
+    if (randomUri) {
+      handleNavigateToCreate(randomUri);
+    } else {
+      console.warn('Failed to resolve random meme image');
+    }
+  };
+
+  return [
     {
       id: 1,
-      text: 'Welcome to Meme Creator!',
+      text: '🎲 Start with a Random Meme',
       animation: require('@assets/animations/welcome.json'),
-      onPress: () => {
-        // Does nothing as requested
-        console.log('Welcome card pressed');
-      },
+      onPress: withNetworkCheck(handleRandomMeme), // wrap it here!
     },
     {
       id: 2,
-      text: 'Browse All Meme Templates',
+      text: '📂 Explore Famous Templates',
       animation: require('@assets/animations/meme.json'),
-      onPress: () => navigation.navigate('Templates'), // Navigates to new screen
+      onPress: navigateToTemplates,
     },
     {
       id: 3,
-      text: 'Tap here for a surprise message!',
+      text: '⚠️ Important Message',
       animation: require('@assets/animations/warning.json'),
-      onPress: () =>
-        Alert.alert(
-          'Hey There!',
-          'Thanks for checking out the app. Have a great day! 😄'
-        ), // Shows an alert
+      onPress: showImportantMessage,
     },
   ];
+};

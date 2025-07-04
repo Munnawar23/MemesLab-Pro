@@ -1,81 +1,77 @@
 import { StyleSheet } from 'react-native';
-import { themeColors } from '@styles/globalStyles/themeColors';
+import { themeColors, fonts } from '@styles/globalStyles/themeColors';
 
 const styles = StyleSheet.create({
+  // The pressable overlay that covers the screen, used to close the modal.
   overlay: {
     flex: 1,
     justifyContent: 'flex-end',
-    backgroundColor: 'transparent',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
+
+  // The modal content container that slides up from the bottom.
   modal: {
-    backgroundColor: themeColors.secondaryText,
+    backgroundColor: themeColors.background, // Use the main app background for consistency.
     padding: 20,
-    paddingBottom: 30,
+    paddingBottom: 40, // Extra padding at the bottom for home indicator/safe area.
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     alignItems: 'stretch',
   },
+
+  // The title of the action sheet.
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
     color: themeColors.text,
     textAlign: 'center',
     marginBottom: 24,
+    fontFamily: fonts.heading, // Use the heading font for impact.
   },
-  cancelButton: {
-    backgroundColor: themeColors.border,
-  },
+
+  // The confirmation message for the delete action.
   deleteMessage: {
     fontSize: 16,
-    color: themeColors.text,
+    color: themeColors.secondaryText,
     textAlign: 'center',
     marginBottom: 20,
+    fontFamily: fonts.bodyMedium, // Use the standard body font for clarity.
   },
+
+  // Container for the delete confirmation buttons.
   deleteButtonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
     gap: 10,
   },
-  cancelDeleteButton: {
-    backgroundColor: themeColors.border,
+
+  // A shared style to make buttons in a row expand equally.
+  actionButton: {
     flex: 1,
   },
-  confirmDeleteButton: {
-    backgroundColor: '#ff3b30',
-    flex: 1,
-  },
-  animationContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  lottieAnimation: {
-    width: 100,
-    height: 100,
-  },
-  deletingText: {
-    fontSize: 16,
-    color: themeColors.text,
-    marginTop: 10,
-    textAlign: 'center',
-  },
+
+  // Full-screen overlay for the "Deleting..." animation.
   deletingOverlay: {
-  flex: 1,
-  justifyContent: 'center',
-  alignItems: 'center',
-  backgroundColor: 'rgba(0,0,0,0.7)',
-},
-deletingLottie: {
-  width: 150,
-  height: 150,
-},
-deletingTextCenter: {
-  marginTop: 20,
-  fontSize: 18,
-  color: '#fff',
-  textAlign: 'center',
-},
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+  },
+
+  // The Lottie animation view.
+  deletingLottie: {
+    width: 150,
+    height: 150,
+  },
+
+  // The "Deleting..." text shown below the animation.
+  deletingTextCenter: {
+    marginTop: 20,
+    fontSize: 18,
+    color: themeColors.badgeText, // Use light text for the dark overlay.
+    textAlign: 'center',
+    fontFamily: fonts.bodyBold,
+  },
 });
 
 export default styles;

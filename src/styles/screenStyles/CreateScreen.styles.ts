@@ -1,102 +1,100 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { themeColors } from '@styles/globalStyles/themeColors';
+import { themeColors, fonts } from '@styles/globalStyles/themeColors';
 
 const { width, height } = Dimensions.get('window');
-const canvasSize = width; // ⬅️ full width, no -40
-
+const canvasSize = width;
 
 const styles = StyleSheet.create({
+  // --- Main Structure ---
   container: {
     flex: 1,
     backgroundColor: themeColors.background,
-    paddingTop: 20
   },
-
   scrollContainer: {
     flexGrow: 1,
     alignItems: 'center',
-    justifyContent: 'flex-start',
-    padding: 0, 
+    paddingBottom: 30,
+  },
+  headerText: {
+    fontSize: 18,
+    color: themeColors.text,
+    marginTop: 20,
+    marginBottom: 20,
+    textAlign: 'center',
+    fontFamily: fonts.heading,
   },
 
+  // --- Meme Canvas ---
   canvasContainer: {
     width: canvasSize,
     height: canvasSize,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#000',
-    borderRadius: 0,        // ⬅️ no rounded corners
+    backgroundColor: '#000000', // The canvas itself has a black background.
     overflow: 'hidden',
-    marginBottom: 0,        // ⬅️ no margin
+    marginBottom: 20,
   },
-
   image: {
     width: '100%',
     height: '100%',
     resizeMode: 'contain',
   },
 
+  // --- Color Palette ---
   colorPaletteContainer: {
-    width: '100%',
+    width: '90%',
     marginBottom: 20,
     alignItems: 'center',
   },
-
   paletteTitle: {
     fontSize: 16,
-    fontWeight: '600',
-    color: themeColors.placeholder,
+    color: themeColors.secondaryText,
     marginBottom: 15,
+    fontFamily: fonts.bodyMedium,
   },
-
   colorPalette: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: '100%',
   },
-
   colorSwatch: {
     width: 32,
     height: 32,
     borderRadius: 16,
     borderWidth: 2,
-    borderColor: 'transparent',
+    borderColor: 'transparent', // Default state has no border.
   },
-
   activeColorSwatch: {
-    borderColor: themeColors.primary,
+    borderColor: themeColors.primary, // The selected color is highlighted.
     transform: [{ scale: 1.15 }],
   },
 
+  // --- Action Buttons ---
   addTextButton: {
     backgroundColor: themeColors.card,
     borderColor: themeColors.border,
     borderWidth: 1,
     paddingVertical: 12,
+    paddingHorizontal: 20,
     borderRadius: 8,
     alignItems: 'center',
     marginBottom: 20,
-    width: '100%',
+    width: '90%',
   },
-
   addTextButtonText: {
     color: themeColors.text,
     fontSize: 16,
-    fontWeight: '600',
+    fontFamily: fonts.bodyBold, // A bold font for a clear call to action.
   },
-
   buttonContainer: {
     width: '90%',
     marginTop: 10,
+    minHeight: 50, // Ensures layout doesn't shift when switching to spinner.
+    justifyContent: 'center',
   },
-  headerText: {
-  fontSize: 24,
-  fontWeight: 'bold',
-  color: themeColors.text,
-  marginBottom: 20,
-  textAlign: 'center',
-},
-lottieModalContainer: {
+
+  // --- Lottie Animation Modal ---
+  lottieModalContainer: {
     flex: 1,
     backgroundColor: '#2196F3', // Blue background
     justifyContent: 'center',
@@ -121,7 +119,6 @@ lottieModalContainer: {
     height: Math.min(width * 0.6, 250), // Keep it square
     alignSelf: 'center',
   },
-
 });
 
 export default styles;

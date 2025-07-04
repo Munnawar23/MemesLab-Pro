@@ -3,18 +3,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-// Navigators
 import MainTabNavigator from './MainTabNavigator';
-
-// Screens
 import SplashScreen from '@screens/SplashScreen';
 import CreateMemeScreen from '@screens/CreateMemeScreen';
-// --- REMOVE THE TemplatesScreen IMPORT, IT'S NO LONGER NEEDED HERE ---
+import { themeColors, fonts } from '@styles/globalStyles/themeColors';
 
-// Global theme colors
-import { themeColors } from '@styles/globalStyles/themeColors';
-
-// --- REMOVE 'Templates' FROM THE ROOT STACK PARAMS ---
+// Defines the routes available in the root stack navigator.
 export type RootStackParamList = {
   Splash: undefined;
   Main: undefined;
@@ -23,6 +17,7 @@ export type RootStackParamList = {
 
 const Stack = createStackNavigator<RootStackParamList>();
 
+// The primary navigator that orchestrates the app's screen flow.
 const AppNavigator = () => {
   return (
     <SafeAreaProvider>
@@ -43,13 +38,21 @@ const AppNavigator = () => {
             component={CreateMemeScreen}
             options={{
               headerShown: true,
-              headerStyle: { backgroundColor: themeColors.primary, height: 100 },
-              headerTintColor: '#fff',
-              headerTitleStyle: { fontWeight: 'bold' },
+              headerStyle: {
+                backgroundColor: themeColors.primary,
+                height: 100,
+              },
+              headerTintColor: themeColors.badgeText,
+              // The style for the header's title text.
+              headerTitleStyle: {
+                // Use the heading font to match the style of the main tab screens.
+                fontFamily: fonts.heading,
+                // Add a specific font size for perfect consistency across all headers.
+                fontSize: 18,
+              },
               title: 'Create Meme',
             }}
           />
-          {/* --- REMOVE THE TemplatesScreen FROM THE STACK NAVIGATOR --- */}
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

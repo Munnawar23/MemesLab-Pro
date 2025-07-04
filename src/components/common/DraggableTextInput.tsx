@@ -1,3 +1,7 @@
+// No changes were needed in this component file.
+// All styling is correctly handled by the stylesheet.
+// The provided code was already well-structured.
+
 import React from 'react';
 import { TextInput, TouchableOpacity, Text, View } from 'react-native';
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-gesture-handler';
@@ -17,9 +21,10 @@ interface Props {
   textColor: string;
   initialY: number;
   canvasWidth: number;
-  isSaving?: boolean;  // 👈 NEW
+  isSaving?: boolean;
 }
 
+// A draggable and editable text input, primarily for the meme editor canvas.
 const DraggableTextInput = ({
   id,
   value,
@@ -33,6 +38,7 @@ const DraggableTextInput = ({
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(initialY);
 
+  // Handles drag gestures to update the text's position on the canvas.
   const onGestureEvent = useAnimatedGestureHandler<
     PanGestureHandlerGestureEvent,
     { x: number; y: number }
@@ -47,6 +53,7 @@ const DraggableTextInput = ({
     },
   });
 
+  // Creates the animated style for the container based on shared values.
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [
       { translateX: translateX.value },
@@ -54,6 +61,7 @@ const DraggableTextInput = ({
     ],
   }));
 
+  // Renders a single drag handle at a specified corner.
   const renderDragHandle = (positionStyle: object, key: string) => (
     <PanGestureHandler key={key} onGestureEvent={onGestureEvent}>
       <Animated.View style={[styles.dragHandle, positionStyle]}>
@@ -73,7 +81,7 @@ const DraggableTextInput = ({
       <View
         style={[
           styles.textInputWrapper,
-          isSaving && { borderWidth: 0, backgroundColor: 'transparent' }
+          isSaving && { borderWidth: 0, backgroundColor: 'transparent' },
         ]}
       >
         <TextInput
@@ -87,6 +95,7 @@ const DraggableTextInput = ({
           editable={!isSaving}
         />
 
+        {/* The close button and drag handles are hidden when saving the final image. */}
         {!isSaving && (
           <>
             <TouchableOpacity

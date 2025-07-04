@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { themeColors } from '@styles/globalStyles/themeColors';
+import { themeColors, fonts } from '@styles/globalStyles/themeColors';
 
 const styles = StyleSheet.create({
+  // The container for the connection banner.
   bannerContainer: {
     paddingVertical: 12,
     paddingHorizontal: 16,
@@ -9,13 +10,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderBottomWidth: 2,
     borderColor: themeColors.border,
-    backgroundColor: themeColors.primary, 
+    backgroundColor: themeColors.primary,
   },
+
+  // The informational text displayed within the banner.
   bannerText: {
-    fontWeight: '600',
     fontSize: 14,
     textAlign: 'center',
-    color: themeColors.text, 
+    color: themeColors.badgeText, // Use light text for contrast against the primary color.
+    // Use the standard body font for readability.
+    fontFamily: fonts.bodyMedium,
   },
 });
 

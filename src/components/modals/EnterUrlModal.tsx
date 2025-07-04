@@ -1,62 +1,66 @@
 import React from 'react';
-import {Modal,View,Text,TextInput,TouchableOpacity} from 'react-native';
-
+import { Modal, View, Text, TextInput } from 'react-native';
+import Button from '@components/common/Button';
 import styles from '@styles/componentStyles/modals/EnterUrlModal.styles';
+import { themeColors } from '@styles/globalStyles/themeColors'; 
 
 interface Props {
-  visible: boolean; // Modal visibility
-  onClose: () => void; // Called when modal is dismissed
-  imageUrl: string; // Controlled input value
-  onChangeUrl: (text: string) => void; // Input value change handler
-  errorText: string; // Displayed below input if error exists
-  onSubmit: () => void; // Called when user presses "OK"
+  visible: boolean;
+  onClose: () => void;
+  imageUrl: string;
+  onChangeUrl: (text: string) => void;
+  errorText: string;
+  onSubmit: () => void;
 }
 
-/**
- * EnterUrlModal Component
- * - Modal popup to input meme image URL
- * - Used for custom image uploads
- */
-const EnterUrlModal = ({visible,onClose,imageUrl,onChangeUrl,errorText,onSubmit}: Props) => {
+// A modal that allows users to input an image URL.
+const EnterUrlModal = ({
+  visible,
+  onClose,
+  imageUrl,
+  onChangeUrl,
+  errorText,
+  onSubmit,
+}: Props) => {
   return (
     <Modal
       visible={visible}
-      animationType="slide"
+      animationType="fade"
       transparent
       onRequestClose={onClose}
     >
-      {/* Dimmed background overlay */}
       <View style={styles.modalBackground}>
-
-        {/* Main modal content box */}
         <View style={styles.modalContent}>
           <Text style={styles.modalTitle}>Enter Image URL</Text>
 
-          {/* Text input field */}
           <TextInput
             style={styles.input}
             placeholder="https://example.com/meme.jpg"
-            placeholderTextColor={styles.placeholderColor.color}
+            // Use the placeholder color directly from the theme object.
+            placeholderTextColor={themeColors.placeholder}
             value={imageUrl}
             onChangeText={onChangeUrl}
             autoCapitalize="none"
             autoCorrect={false}
+            keyboardType="url"
           />
 
-          {/* Optional error message */}
-          {errorText ? (
-            <Text style={styles.errorText}>{errorText}</Text>
-          ) : null}
+          {/* Display an error message if one is provided. */}
+          {!!errorText && <Text style={styles.errorText}>{errorText}</Text>}
 
-          {/* Buttons: Cancel and OK */}
           <View style={styles.modalButtons}>
-            <TouchableOpacity onPress={onClose} style={styles.modalButton}>
-              <Text style={styles.modalButtonText}>Cancel</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={onSubmit} style={styles.modalButton}>
-              <Text style={styles.modalButtonText}>OK</Text>
-            </TouchableOpacity>
+            <Button
+              label="Cancel"
+              onPress={onClose}
+              variant="secondary"
+              style={styles.modalButton}
+            />
+            <Button
+              label="OK"
+              onPress={onSubmit}
+              variant="default"
+              style={styles.modalButton}
+            />
           </View>
         </View>
       </View>

@@ -1,42 +1,44 @@
 import { StyleSheet } from 'react-native';
-import { themeColors } from '@styles/globalStyles/themeColors'; // Static color palette
+import { themeColors, fonts } from '@styles/globalStyles/themeColors'; // Import both colors and fonts
 
 const styles = StyleSheet.create({
-  // Wrapper for card and title
+  // Outer container for the card and its title.
+  // Sized to fit two cards per row with spacing.
   cardContainer: {
-    width: '47%',
-    alignItems: 'center',
-    marginBottom: 16,
+    width: '48%', // Use 48% to allow for space-between justification in the parent.
+    marginBottom: 20,
   },
 
-  // Card box with image, shadow, and rounded corners
+  // The interactive card element containing the image.
+  // Includes rounded corners and a subtle shadow for depth.
   card: {
     width: '100%',
-    aspectRatio: 1,
+    aspectRatio: 1, // Maintain a square shape.
     borderRadius: 14,
     overflow: 'hidden',
-    backgroundColor: themeColors.placeholder, 
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
+    backgroundColor: themeColors.placeholder, // Used as a fallback while the image loads.
+    elevation: 3, // Android shadow.
+    shadowColor: '#000', // iOS shadow.
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
   },
 
-  // Image inside the card
+  // The template image itself, covers the entire card area.
   cardImage: {
     width: '100%',
     height: '100%',
     resizeMode: 'cover',
   },
 
-  // Title text below the image
+  // The title text displayed below the card.
   cardTitle: {
     marginTop: 8,
     fontSize: 14,
-    fontWeight: '600',
     textAlign: 'center',
-    color: themeColors.text, // Text color from static theme
+    color: themeColors.text,
+    // Use the medium-weight body font from our central font definition.
+    fontFamily: fonts.bodyMedium,
   },
 });
 

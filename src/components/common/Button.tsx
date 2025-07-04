@@ -1,25 +1,23 @@
 import React from 'react';
-import { TouchableOpacity, Text, ActivityIndicator, ViewStyle } from 'react-native';
+import {
+  TouchableOpacity,
+  Text,
+  ActivityIndicator,
+  ViewStyle,
+} from 'react-native';
 import styles from '@styles/componentStyles/common/Button.styles';
+import { themeColors } from '@styles/globalStyles/themeColors'; // Import theme for the spinner color
 
 interface Props {
-  label: string; // button text
-  onPress: () => void; // press handler
-  variant?: 'default' | 'secondary' | 'danger'; // button color variant
-  disabled?: boolean; // disables press & dims style
-  loading?: boolean; // shows spinner
-  style?: ViewStyle; // extra styles
+  label: string;
+  onPress: () => void;
+  variant?: 'default' | 'secondary' | 'danger';
+  disabled?: boolean;
+  loading?: boolean;
+  style?: ViewStyle;
 }
 
-/**
- * Button Component
- * ---------------------------------------
- * Renders a pressable button with:
- * - label
- * - variant color
- * - optional loading spinner
- * - disabled & custom styles
- */
+// A versatile button component for primary, secondary, and destructive actions.
 const Button: React.FC<Props> = ({
   label,
   onPress,
@@ -28,12 +26,13 @@ const Button: React.FC<Props> = ({
   loading = false,
   style,
 }) => {
-  // Define background color based on variant
-  const backgroundColor = styles[`${variant}Button`].backgroundColor;
+  // The button's visual style (e.g., background color) is derived from its variant
+  // and defined in the corresponding stylesheet.
+  const buttonVariantStyle = styles[`${variant}Button`];
 
-  // Compose final style
+  // The button is dimmed when it's in a disabled or loading state.
   const finalStyle: ViewStyle = {
-    backgroundColor,
+    ...buttonVariantStyle,
     opacity: disabled || loading ? 0.6 : 1,
   };
 
@@ -42,10 +41,11 @@ const Button: React.FC<Props> = ({
       onPress={onPress}
       style={[styles.button, finalStyle, style]}
       disabled={disabled || loading}
+      activeOpacity={0.8}
     >
-      {/* Show spinner if loading, otherwise label */}
       {loading ? (
-        <ActivityIndicator color="#fff" />
+        // Display a spinner when loading, using a color that contrasts with button backgrounds.
+        <ActivityIndicator color={themeColors.badgeText} />
       ) : (
         <Text style={styles.buttonText}>{label}</Text>
       )}

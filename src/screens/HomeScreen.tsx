@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
-  Alert,
   ScrollView,
   TouchableOpacity,
   useWindowDimensions,
@@ -14,18 +13,27 @@ import LottieView from 'lottie-react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useNetInfo } from '@react-native-community/netinfo';
 
+import { getCarouselData } from '@constants/carousel';
 import EnterUrlModal from '@components/modals/EnterUrlModal';
+import ImportantMessageModal from '@components/modals/ImportantMessageModal';
 import { downloadAndCacheImage } from '@services/imageCaching';
 import { copyImageToAppDir } from '@utils/imageUtils';
 import ConnectionBanner from '@components/common/ConnectionBanner';
 import MemeCard from '@components/cards/TemplateCard';
 import styles from '@styles/screenStyles/HomeScreen.styles';
+import { allMemes } from '@constants/memes';
 
-import { indianMemes, topTemplates } from '@constants/memes';
-
+// Defines the navigation stack parameters for type-safe navigation.
 type StackParamList = {
   Create: { imageUri: string };
   Templates: undefined;
+};
+
+// Defines the structure for a generic informational modal's state.
+type InfoModalState = {
+  visible: boolean;
+  title: string;
+  message: string;
 };
 
 const HomeScreen = () => {
@@ -33,83 +41,89 @@ const HomeScreen = () => {
   const netInfo = useNetInfo();
   const { width } = useWindowDimensions();
 
+  // A reference to the carousel ScrollView for programmatic scrolling.
   const scrollViewRef = useRef<ScrollView>(null);
   const [activeSlide, setActiveSlide] = useState(0);
 
+  // Memoizes the featured templates to prevent re-computation on every render.
   const featuredTemplates = React.useMemo(() => {
-    const allMemes = [...indianMemes, ...topTemplates];
     return allMemes.slice(0, 6);
   }, []);
 
+  // State for managing the visibility and content of the URL input modal.
   const [urlModalVisible, setUrlModalVisible] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
   const [errorText, setErrorText] = useState('');
 
-  // 🎲 pick random meme & navigate
-  const handleRandomMeme = () => {
-    const allMemes = [...indianMemes, ...topTemplates];
-    const randomIndex = Math.floor(Math.random() * allMemes.length);
-    const randomMeme = allMemes[randomIndex];
-    const randomUri = Image.resolveAssetSource(randomMeme.image).uri;
-    handleNavigateToCreate(randomUri);
+  // State for the generic informational modal.
+  const [infoModal, setInfoModal] = useState<InfoModalState>({
+    visible: false,
+    title: '',
+    message: '',
+  });
+
+  // Displays a modal informing the user that an action requires internet.
+  const showOfflineWarning = () => {
+    setInfoModal({
+      visible: true,
+      title: 'Connection Error',
+      message: 'An internet connection is required for this action. Please check your connection and try again.',
+    });
   };
 
-  const carouselData = [
-    {
-      id: 1,
-      text: 'Welcome to Meme Creator!',
-      animation: require('@assets/animations/welcome.json'),
-      onPress: handleRandomMeme, // 🎯 now runs random meme
-    },
-    {
-      id: 2,
-      text: 'Browse All Meme Templates',
-      animation: require('@assets/animations/meme.json'),
-      onPress: () => navigation.navigate('Templates'),
-    },
-    {
-      id: 3,
-      text: 'Tap here for a surprise message!',
-      animation: require('@assets/animations/warning.json'),
-      onPress: () =>
-        Alert.alert(
-          'Hey There!',
-          'Thanks for checking out the app. Have a great day! 😄'
-        ),
-    },
-  ];
+  // Displays a modal with a general responsible-use message.
+  const showImportantMessage = () => {
+    setInfoModal({
+      visible: true,
+      title: 'Important Message',
+      message: 'Please use this app responsibly. It is intended for fun, and you should not use anyone\'s photo without their consent.',
+    });
+  };
 
+  // A higher-order function that wraps an action with a network connectivity check.
+  const withNetworkCheck = (action: () => void) => {
+    return () => {
+      if (netInfo.isConnected) {
+        action();
+      } else {
+        showOfflineWarning();
+      }
+    };
+  };
+
+  // Navigates to the meme creation screen with a specific image URI.
+  const handleNavigateToCreate = (uri: string) => {
+    navigation.navigate('Create', { imageUri: uri });
+  };
+
+  // Retrieves the data for the main feature carousel.
+  const carouselData = getCarouselData(
+    handleNavigateToCreate,
+    withNetworkCheck(() => navigation.navigate('Templates')),
+    showImportantMessage,
+    withNetworkCheck
+  );
+
+  // An effect that automatically scrolls the carousel every 3 seconds.
   useEffect(() => {
     const interval = setInterval(() => {
       const nextSlide = (activeSlide + 1) % carouselData.length;
       const offsetX = nextSlide * width;
       scrollViewRef.current?.scrollTo({ x: offsetX, animated: true });
-      setActiveSlide(nextSlide);
     }, 3000);
     return () => clearInterval(interval);
   }, [activeSlide, width]);
 
+  // Updates the active slide index based on the user's manual scroll position.
   const handleScroll = (event: any) => {
     const slide = Math.round(event.nativeEvent.contentOffset.x / width);
     if (slide !== activeSlide) setActiveSlide(slide);
   };
 
-  const showOfflineAlert = () => {
-    Alert.alert(
-      'No Internet',
-      'An internet connection is required for this action.'
-    );
-  };
-
-  const handleNavigateToCreate = (uri: string) => {
-    if (!netInfo.isConnected) return showOfflineAlert();
-    navigation.navigate('Create', { imageUri: uri });
-  };
-
+  // Opens the device's image library to select an image.
   const openGallery = async () => {
-    if (!netInfo.isConnected) return showOfflineAlert();
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ['images', 'videos'],
       quality: 1,
       allowsEditing: true,
     });
@@ -119,13 +133,14 @@ const HomeScreen = () => {
     }
   };
 
+  // Opens the URL input modal.
   const openUrlModal = () => {
-    if (!netInfo.isConnected) return showOfflineAlert();
     setImageUrl('');
     setErrorText('');
     setUrlModalVisible(true);
   };
 
+  // Handles the submission of an image URL.
   const handleSubmitUrl = async () => {
     if (!imageUrl) return setErrorText('URL cannot be empty.');
     try {
@@ -141,13 +156,14 @@ const HomeScreen = () => {
     }
   };
 
-  const renderFeaturedTemplate = ({ item, index }: { item: any; index: number }) => (
+  // Renders a single featured template card for the FlatList.
+  const renderFeaturedTemplate = ({ item }: { item: any }) => (
     <MemeCard
       image={item.image}
       title={item.title}
-      onPress={() =>
+      onPress={withNetworkCheck(() =>
         handleNavigateToCreate(Image.resolveAssetSource(item.image).uri)
-      }
+      )}
     />
   );
 
@@ -159,7 +175,6 @@ const HomeScreen = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
-        {/* --- HEADER CAROUSEL --- */}
         <View style={styles.mainHeader}>
           <ScrollView
             ref={scrollViewRef}
@@ -169,7 +184,6 @@ const HomeScreen = () => {
             onScroll={handleScroll}
             scrollEventThrottle={16}
             style={{ width }}
-            contentContainerStyle={{ alignItems: 'center' }}
           >
             {carouselData.map((item) => (
               <View key={item.id} style={[styles.carouselWrapper, { width }]}>
@@ -203,7 +217,6 @@ const HomeScreen = () => {
           </View>
         </View>
 
-        {/* Upload options */}
         <View style={styles.createSection}>
           <Text style={styles.primarySectionTitle}>🎨 Create Your Own</Text>
           <Text style={styles.sectionDescription}>
@@ -213,14 +226,14 @@ const HomeScreen = () => {
           <View style={styles.createOptionsGrid}>
             <TouchableOpacity
               style={styles.createOptionCard}
-              onPress={openGallery}
+              onPress={withNetworkCheck(openGallery)}
             >
               <Text style={styles.createOptionEmoji}>📱</Text>
               <Text style={styles.createOptionText}>From Gallery</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.createOptionCard}
-              onPress={openUrlModal}
+              onPress={withNetworkCheck(openUrlModal)}
             >
               <Text style={styles.createOptionEmoji}>🔗</Text>
               <Text style={styles.createOptionText}>From URL</Text>
@@ -228,7 +241,6 @@ const HomeScreen = () => {
           </View>
         </View>
 
-        {/* Featured Templates */}
         <View style={styles.featuredSection}>
           <Text style={styles.primarySectionTitle}>🔥 Featured Templates</Text>
           <Text style={styles.sectionDescription}>
@@ -238,7 +250,7 @@ const HomeScreen = () => {
           <FlatList
             data={featuredTemplates}
             renderItem={renderFeaturedTemplate}
-            keyExtractor={(item, index) => `featured-${index}`}
+            keyExtractor={(_, index) => `featured-${index}`}
             numColumns={2}
             columnWrapperStyle={styles.flatListRow}
             scrollEnabled={false}
@@ -248,12 +260,12 @@ const HomeScreen = () => {
         </View>
 
         <View style={styles.footerSection}>
-          <Text style={styles.footerTitle}>✨ Made with Love</Text>
+          <Text style={styles.footerTitle}>🎭 MemesLab Pro</Text>
           <Text style={styles.footerText}>
             Create amazing memes and share them with the world!
           </Text>
           <Text style={styles.footerSubtext}>
-            © 2024 Meme Creator • Version 1.0
+            ©2025 MemesLab Pro • Version 1.0
           </Text>
         </View>
       </ScrollView>
@@ -264,7 +276,14 @@ const HomeScreen = () => {
         imageUrl={imageUrl}
         onChangeUrl={setImageUrl}
         errorText={errorText}
-        onSubmit={handleSubmitUrl}
+        onSubmit={withNetworkCheck(handleSubmitUrl)}
+      />
+
+      <ImportantMessageModal
+        visible={infoModal.visible}
+        title={infoModal.title}
+        message={infoModal.message}
+        onClose={() => setInfoModal({ ...infoModal, visible: false })}
       />
     </View>
   );

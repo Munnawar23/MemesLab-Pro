@@ -1,12 +1,14 @@
 import { StyleSheet } from 'react-native';
-import { themeColors } from '../globalStyles/themeColors'; // static theme colors
+import { themeColors, fonts } from '@styles/globalStyles/themeColors';
 
 const styles = StyleSheet.create({
+  // The main container for the screen.
   container: {
     flex: 1,
-    paddingTop: 10,
     backgroundColor: themeColors.background,
   },
+
+  // A container used for the empty state, centering its content.
   centered: {
     flex: 1,
     justifyContent: 'center',
@@ -14,21 +16,29 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: themeColors.background,
   },
-  // --- NEW STYLE FOR THE LOTTIE ANIMATION ---
+
+  // The style for the Lottie animation in the empty state.
   lottieAnimation: {
     width: 250,
     height: 250,
-    marginBottom: 20, // Adds space between the animation and the text
+    marginBottom: 20,
   },
+
+  // The informational text displayed in the empty state.
   infoText: {
     fontSize: 18,
-    color: themeColors.placeholder, // Using a slightly dimmer color
+    color: themeColors.secondaryText,
     textAlign: 'center',
     lineHeight: 26,
+    fontFamily: fonts.bodyMedium,
   },
+
+  // Styling for the FlatList content area.
   list: {
     padding: 4,
   },
+
+  // The wrapper for each card in the grid, ensuring proper spacing and sizing.
   cardContainer: {
     flex: 1,
     margin: 4,

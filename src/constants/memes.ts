@@ -1,4 +1,4 @@
-export const indianMemes = [
+export const allMemes = [
   {
     image: require('@assets/images/pani.jpg'),
     title: 'Pani Meme',
@@ -13,11 +13,8 @@ export const indianMemes = [
   },
   {
     image: require('@assets/images/aukat.jpeg'),
-    title: 'Aukat Dikha die meme',
+    title: 'Aukat Dikha die',
   },
-];
-
-export const topTemplates = [
   {
     image: require('@assets/images/cat.jpg'),
     title: 'Cat Meme',
@@ -28,10 +25,26 @@ export const topTemplates = [
   },
   {
     image: require('@assets/images/girl.jpg'),
-    title: 'Burining House',
+    title: 'Burning House',
   },
   {
     image: require('@assets/images/smith.jpeg'),
     title: 'Sad Meme',
+  },
+  {
+    image: require('@assets/images/brainrot.jpg'),
+    title: 'Brainrot',
+  },
+  {
+    image: require('@assets/images/cj.jpeg'),
+    title: 'CJ',
+  },
+  {
+    image: require('@assets/images/bestofluck.jpeg'),
+    title: 'Best of Luck',
+  },
+  {
+    image: require('@assets/images/kid.jpg'),
+    title: 'Sigma Kid',
   },
 ];

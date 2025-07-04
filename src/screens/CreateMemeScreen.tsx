@@ -20,6 +20,7 @@ import { saveMeme } from '@services/memeStorage';
 import Button from '@components/common/Button';
 import DraggableTextInput from '@components/common/DraggableTextInput';
 import styles from '@styles/screenStyles/CreateScreen.styles';
+import { themeColors } from '@styles/globalStyles/themeColors';
 
 interface TextInputState {
   id: number;
@@ -27,12 +28,15 @@ interface TextInputState {
   initialY: number;
 }
 
-type RootStackParamList = { Create: { imageUri: string }; Main: { screen: string }; };
+// Defines the types for navigation and route parameters.
+type RootStackParamList = { Create: { imageUri: string }; Main: { screen: string } };
 type CreateScreenRouteProp = RouteProp<RootStackParamList, 'Create'>;
 type CreateScreenNavigationProp = NavigationProp<RootStackParamList>;
 
+// A predefined palette of text colors for the user to choose from.
 const TEXT_COLORS = ['#FFFFFF', '#000000', '#FFD700', '#FF4500', '#32CD32', '#1E90FF', '#9400D3'];
-const { width, height } = Dimensions.get('window');
+
+const { width } = Dimensions.get('window');
 const canvasWidth = width;
 const canvasHeight = canvasWidth;
 
@@ -41,71 +45,70 @@ const CreateScreen = () => {
   const navigation = useNavigation<CreateScreenNavigationProp>();
   const { imageUri } = route.params;
 
+  // Manages the state of all draggable text input overlays.
   const [textInputs, setTextInputs] = useState<TextInputState[]>([
     { id: Date.now(), text: '', initialY: 10 },
   ]);
+
   const [textColor, setTextColor] = useState('#FFFFFF');
   const [isSaving, setIsSaving] = useState(false);
   const [showLottieAnimation, setShowLottieAnimation] = useState(false);
   const viewShotRef = useRef<ViewShot>(null);
-  const lottieRef = useRef<LottieView>(null);
 
+  // Adds a new draggable text input field to the canvas.
   const addTextInput = () => {
     const newTextInput: TextInputState = {
       id: Date.now(),
       text: '',
       initialY: canvasHeight / 2 - 40,
     };
-    setTextInputs(currentInputs => [...currentInputs, newTextInput]);
+    setTextInputs((currentInputs) => [...currentInputs, newTextInput]);
   };
 
+  // Updates the text content of a specific input field.
   const handleTextChange = (id: number, newText: string) => {
-    setTextInputs(currentInputs =>
-      currentInputs.map(input =>
+    setTextInputs((currentInputs) =>
+      currentInputs.map((input) =>
         input.id === id ? { ...input, text: newText } : input
       )
     );
   };
 
+  // Removes a text input field, ensuring at least one remains.
   const handleCloseText = (id: number) => {
     if (textInputs.length <= 1) {
       Alert.alert('Cannot Remove', 'At least one text field must be visible.');
       return;
     }
-    setTextInputs(currentInputs => currentInputs.filter(input => input.id !== id));
+    setTextInputs((currentInputs) => currentInputs.filter((input) => input.id !== id));
   };
 
+  // Captures the meme canvas as an image, saves it to local storage, and triggers a success animation.
   const handleSave = async () => {
-  if (!viewShotRef.current) return;
-
-  setIsSaving(true);
-
-  try {
-    const uri = await viewShotRef.current?.capture?.();
-
-    if (!uri) {
+    if (!viewShotRef.current) return;
+    setIsSaving(true);
+    try {
+      const uri = await viewShotRef.current?.capture?.();
+      if (!uri) {
+        setIsSaving(false);
+        Alert.alert('Error', 'Could not capture the meme.');
+        return;
+      }
+      await saveMeme({ imageUri: uri });
+      setShowLottieAnimation(true); // Trigger the success animation.
+    } catch (err) {
+      console.error(err);
+      Alert.alert('Error', 'Something went wrong while saving the meme.');
+    } finally {
       setIsSaving(false);
-      Alert.alert('Error', 'Could not capture the meme.');
-      return;
     }
+  };
 
-    await saveMeme({ imageUri: uri });
-
-    // start the Lottie animation
-    setShowLottieAnimation(true);
-    setIsSaving(false);
-  } catch (err) {
-    console.error(err);
-    setIsSaving(false);
-    Alert.alert('Error', 'Something went wrong while saving the meme.');
-  }
-};
-
-
- const onLottieAnimationFinish = () => {
-  setShowLottieAnimation(false);
-  navigation.navigate('Main', { screen: 'My Memes' });
-};
+  // Navigates the user to the "My Memes" screen after the success animation finishes.
+  const onLottieAnimationFinish = () => {
+    setShowLottieAnimation(false);
+    navigation.navigate('Main', { screen: 'My Memes' });
+  };
 
   return (
     <KeyboardAvoidingView
@@ -116,12 +119,15 @@ const CreateScreen = () => {
         contentContainerStyle={styles.scrollContainer}
         keyboardShouldPersistTaps="handled"
       >
-        <Text style={styles.headerText}>Create Your Meme</Text>
-        
-        <ViewShot ref={viewShotRef} style={styles.canvasContainer} options={{ format: 'jpg', quality: 0.9 }}>
+        <Text style={styles.headerText}>Show your Creativity</Text>
+
+        <ViewShot
+          ref={viewShotRef}
+          style={styles.canvasContainer}
+          options={{ format: 'jpg', quality: 0.9 }}
+        >
           <Image source={{ uri: imageUri }} style={styles.image} />
-          
-          {textInputs.map(input => (
+          {textInputs.map((input) => (
             <DraggableTextInput
               key={input.id}
               id={input.id}
@@ -145,7 +151,7 @@ const CreateScreen = () => {
                 style={[
                   styles.colorSwatch,
                   { backgroundColor: color },
-                  textColor === color && styles.activeColorSwatch
+                  textColor === color && styles.activeColorSwatch,
                 ]}
                 onPress={() => setTextColor(color)}
               />
@@ -158,33 +164,30 @@ const CreateScreen = () => {
         </TouchableOpacity>
 
         <View style={styles.buttonContainer}>
-          {isSaving && !showLottieAnimation
-            ? <ActivityIndicator size="large" color={styles.activeColorSwatch.borderColor} />
-            : <Button label="Save Meme" onPress={handleSave} disabled={isSaving} />
-          }
+          {isSaving ? (
+            <ActivityIndicator size="large" color={themeColors.primary} />
+          ) : (
+            <Button label="Save Meme" onPress={handleSave} disabled={isSaving} />
+          )}
         </View>
       </ScrollView>
 
-      {/* Lottie Animation Modal */}
+      {/* A full-screen modal to display the success animation. */}
       <Modal
         visible={showLottieAnimation}
         transparent={false}
         animationType="fade"
         onRequestClose={() => {}}
-        statusBarTranslucent={true}
       >
         <View style={styles.lottieModalContainer}>
-          <View style={styles.lottieWrapper}>
-            <LottieView
-              ref={lottieRef}
-              source={require('@assets/animations/done.json')} // Replace with your Lottie file path
-              style={styles.lottieAnimation}
-              autoPlay
-              loop={false}
-              onAnimationFinish={onLottieAnimationFinish}
-              resizeMode="contain"
-            />
-          </View>
+          <LottieView
+            source={require('@assets/animations/done.json')}
+            style={styles.lottieAnimation}
+            autoPlay
+            loop={false}
+            onAnimationFinish={onLottieAnimationFinish}
+            resizeMode="contain"
+          />
         </View>
       </Modal>
     </KeyboardAvoidingView>

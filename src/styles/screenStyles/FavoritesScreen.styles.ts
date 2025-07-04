@@ -1,20 +1,14 @@
 import { StyleSheet } from 'react-native';
-import { themeColors } from '../globalStyles/themeColors';
+import { themeColors, fonts } from '@styles/globalStyles/themeColors';
 
 const styles = StyleSheet.create({
-  // Main container
+  // The main container for the screen, covering the full area.
   container: {
     flex: 1,
-    paddingTop: 10,
     backgroundColor: themeColors.background,
   },
-   lottieAnimation: {
-    width: 250,
-    height: 250,
-    marginBottom: 20, // Adds space between the animation and the text
-  },
 
-  // Centered message when no favorites
+  // A container used for the empty state, which centers its content.
   centered: {
     flex: 1,
     justifyContent: 'center',
@@ -23,20 +17,28 @@ const styles = StyleSheet.create({
     backgroundColor: themeColors.background,
   },
 
-  // Text for empty state
+  // The style for the Lottie animation displayed in the empty state.
+  lottieAnimation: {
+    width: 250,
+    height: 250,
+    marginBottom: 20,
+  },
+
+  // The informational text displayed when the favorites list is empty.
   infoText: {
     fontSize: 18,
     color: themeColors.secondaryText,
     textAlign: 'center',
     lineHeight: 26,
+    fontFamily: fonts.bodyMedium,
   },
 
-  // FlatList content container
+  // Styling for the FlatList content area, providing padding around the grid.
   list: {
     padding: 4,
   },
 
-  // Meme card wrapper
+  // The wrapper for each card in the grid, ensuring proper spacing and sizing.
   cardContainer: {
     flex: 1,
     margin: 4,

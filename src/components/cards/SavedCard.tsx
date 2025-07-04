@@ -1,24 +1,26 @@
 import React from 'react';
-import { TouchableOpacity, Image, View, Text, ImageSourcePropType } from 'react-native';
+import {
+  TouchableOpacity,
+  Image,
+  View,
+  Text,
+  ImageSourcePropType,
+} from 'react-native';
 import styles from '@styles/componentStyles/cards/SavedCard.styles';
 
 interface Props {
-  image: ImageSourcePropType;  // Image source (local or uri)
-  onPress: () => void;         // Called when user taps the card
-  isFavorite?: boolean;        // Optional: show favorite badge
+  image: ImageSourcePropType;
+  onPress: () => void;
+  isFavorite?: boolean;
 }
 
-/**
- * SavedCard Component
- * - Displays a saved meme image in a square card
- * - Shows ❤️ badge if marked as favorite
- */
+// Renders a square card for a saved item, typically used in a grid layout.
+// Displays a favorite badge if the item is marked as a favorite.
 const SavedCard = ({ image, onPress, isFavorite }: Props) => (
-  <TouchableOpacity style={styles.card} onPress={onPress}>
-    {/* Meme image */}
+  <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.8}>
     <Image source={image} style={styles.image} />
 
-    {/* Optional Favorite Badge */}
+    {/* Conditionally render the favorite badge in the top-right corner. */}
     {isFavorite && (
       <View style={styles.favoriteBadge}>
         <Text style={styles.favoriteIcon}>❤️</Text>

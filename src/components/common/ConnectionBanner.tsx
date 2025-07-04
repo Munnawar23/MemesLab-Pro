@@ -1,17 +1,14 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { useNetInfo } from '@react-native-community/netinfo';
-
 import styles from '@styles/componentStyles/common/ConnectionBanner.styles';
 
-/**
- * ConnectionBanner component
- * - Shows a warning banner when the device has no internet connection
- * - Now uses all styling from the style file (theme included)
- */
+// Renders a banner at the top of the screen to inform the user
+// when there is no active internet connection.
 const ConnectionBanner = () => {
   const netInfo = useNetInfo();
 
+  // The banner is only rendered if the device is determined to be offline.
   if (netInfo.isConnected === false) {
     return (
       <View style={styles.bannerContainer}>
@@ -22,6 +19,7 @@ const ConnectionBanner = () => {
     );
   }
 
+  // Render nothing if the connection is active.
   return null;
 };
 
