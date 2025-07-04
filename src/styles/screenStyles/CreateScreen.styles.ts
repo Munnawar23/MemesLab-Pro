@@ -1,69 +1,74 @@
-import { StyleSheet, Dimensions, Platform } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { themeColors } from '@styles/globalStyles/themeColors';
 
 const { width } = Dimensions.get('window');
 const canvasSize = width - 40;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: themeColors.background, // screen bg
-  },
+  container: { flex: 1, backgroundColor: themeColors.background },
   scrollContainer: {
     flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
   },
-  memeCanvas: {
+  canvasContainer: {
     width: canvasSize,
     height: canvasSize,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: themeColors.card, // canvas bg
-    overflow: 'hidden',
+    backgroundColor: '#000',
     borderRadius: 8,
+    overflow: 'hidden',
     marginBottom: 20,
   },
-  imageBackground: {
+  image: {
     width: '100%',
     height: '100%',
     resizeMode: 'contain',
   },
-  textOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'space-between',
+  colorPaletteContainer: {
+    width: '100%',
+    marginBottom: 20,
     alignItems: 'center',
-    padding: 10,
   },
-  memeText: {
-    fontSize: 34,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    textAlign: 'center',
-    textTransform: 'uppercase',
-    textShadowColor: 'rgba(0, 0, 0, 0.95)',
-    textShadowOffset: { width: -2, height: 2 },
-    textShadowRadius: 10,
-    fontFamily: Platform.OS === 'ios' ? 'Impact' : 'sans-serif-condensed',
+  paletteTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: themeColors.placeholder,
+    marginBottom: 15,
   },
-  inputContainer: {
+  colorPalette: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     width: '100%',
   },
-  input: {
+  colorSwatch: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  activeColorSwatch: {
+    borderColor: themeColors.primary,
+    transform: [{ scale: 1.15 }],
+  },
+  // --- NEW STYLE FOR THE "ADD TEXT" BUTTON ---
+  addTextButton: {
     backgroundColor: themeColors.card,
-    color: themeColors.text,
-    borderWidth: 1,
     borderColor: themeColors.border,
+    borderWidth: 1,
+    paddingVertical: 12,
     borderRadius: 8,
-    padding: 15,
+    alignItems: 'center',
+    marginBottom: 20,
+    width: '100%',
+  },
+  addTextButtonText: {
+    color: themeColors.text,
     fontSize: 16,
-    marginBottom: 15,
-    textAlign: 'center',
+    fontWeight: '600',
   },
   buttonContainer: {
     width: '100%',
