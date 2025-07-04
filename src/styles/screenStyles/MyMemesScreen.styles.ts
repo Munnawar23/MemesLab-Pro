@@ -4,6 +4,7 @@ import { themeColors } from '../globalStyles/themeColors'; // static theme color
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 10,
     backgroundColor: themeColors.background,
   },
   centered: {
@@ -13,9 +14,15 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: themeColors.background,
   },
+  // --- NEW STYLE FOR THE LOTTIE ANIMATION ---
+  lottieAnimation: {
+    width: 250,
+    height: 250,
+    marginBottom: 20, // Adds space between the animation and the text
+  },
   infoText: {
     fontSize: 18,
-    color: themeColors.secondaryText,
+    color: themeColors.placeholder, // Using a slightly dimmer color
     textAlign: 'center',
     lineHeight: 26,
   },

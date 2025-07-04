@@ -12,6 +12,7 @@ import ConnectionBanner from '@components/common/ConnectionBanner';
 import MemeActionsModal from '@components/modals/MemeActionsModal';
 //Styles
 import styles from '@styles/screenStyles/FavoritesScreen.styles';
+import LottieView from 'lottie-react-native';
 
 
 const FavoritesScreen = () => {
@@ -82,6 +83,12 @@ const FavoritesScreen = () => {
   if (!refreshing && favoriteMemes.length === 0) {
     return (
       <View style={styles.centered}>
+        <LottieView
+          source={require('@assets/animations/empty2.json')} // Your animation
+          autoPlay
+          loop
+          style={styles.lottieAnimation}
+        />
         <Text style={styles.infoText}>You haven't favorited any memes yet.</Text>
         <Text style={styles.infoText}>Go to the "My Memes" tab to add some!</Text>
       </View>

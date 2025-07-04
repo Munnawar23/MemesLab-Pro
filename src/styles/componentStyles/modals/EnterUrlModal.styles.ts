@@ -9,7 +9,7 @@ import { themeColors } from '@styles/globalStyles/themeColors'; // Static color 
 const styles = StyleSheet.create({
   modalBackground: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // semi-transparent overlay
+    backgroundColor: 'transparent', // semi-transparent overlay
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     padding: 24,
     borderRadius: 16,
     elevation: 5,
-    backgroundColor: themeColors.card, // use theme card background
+    backgroundColor: themeColors.secondaryText, // use theme card background
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,

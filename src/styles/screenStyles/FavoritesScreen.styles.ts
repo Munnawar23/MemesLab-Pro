@@ -5,7 +5,13 @@ const styles = StyleSheet.create({
   // Main container
   container: {
     flex: 1,
+    paddingTop: 10,
     backgroundColor: themeColors.background,
+  },
+   lottieAnimation: {
+    width: 250,
+    height: 250,
+    marginBottom: 20, // Adds space between the animation and the text
   },
 
   // Centered message when no favorites

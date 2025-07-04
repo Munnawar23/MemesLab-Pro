@@ -8,10 +8,10 @@ const styles = StyleSheet.create({
   overlay: {
     flex: 1,
     justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // semi-transparent black
+    backgroundColor: 'transparent', 
   },
   modal: {
-    backgroundColor: themeColors.card,
+    backgroundColor: themeColors.secondaryText,
     padding: 20,
     paddingBottom: 30,
     borderTopLeftRadius: 20,

@@ -5,59 +5,84 @@ const styles = StyleSheet.create({
   // Screen wrapper
   container: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 10,
-    backgroundColor: themeColors.background, // Use static background
+    backgroundColor: themeColors.background,
   },
 
   // ScrollView content container padding
   scrollContent: {
-    paddingBottom: 40,
+    paddingBottom: 5,
   },
 
-  // App header
+  // App header - contains the carousel
   mainHeader: {
+    paddingTop: 20,
+    marginBottom: 5,
+  },
+
+  // --- UPDATED: Carousel Styles for Spacing ---
+  carouselWrapper: {
+    // This View takes the full screen width and is used for paging
+  },
+  carouselCard: {
+    backgroundColor: themeColors.primary,
+    borderRadius: 20,
     alignItems: 'center',
-    paddingVertical: 20,
-    marginBottom: 10,
+    justifyContent: 'center',
+    padding: 20,
+    marginHorizontal: 20, // THIS CREATES THE GAP BETWEEN CARDS
+    height: 200, // Give it a fixed height
   },
 
-  // Main app title
-  mainTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 8,
-    color: themeColors.text,
+  lottieAnimation: {
+    width: '80%',
+    height: 160, // Adjusted height
+    marginBottom: 5,
   },
 
-  // Subtitle under title
-  mainSubtitle: {
+  carouselCardText: {
     fontSize: 16,
+    fontWeight: 'bold',
+    color: themeColors.text,
     textAlign: 'center',
-    color: themeColors.placeholder,
-    opacity: 0.8,
   },
+
+  // Pagination Dot Styles
+  paginationContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+
+  paginationDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: themeColors.border,
+    marginHorizontal: 4,
+  },
+
+  paginationDotActive: {
+    backgroundColor: themeColors.primary,
+    width: 24, // Make active dot wider
+  },
+  // --- END of New/Updated Styles ---
 
   // Section: Create your meme
   createSection: {
+    paddingHorizontal: 20, // Add padding here now that it's out of container
     marginBottom: 30,
+    paddingTop: 20,
     paddingBottom: 20,
     borderBottomWidth: 1,
     borderBottomColor: themeColors.border,
-  },
-
-  // Section: Meme templates
-  templatesSection: {
-    paddingTop: 10,
   },
 
   // Big section title
   primarySectionTitle: {
     fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 20,
-    paddingHorizontal: 4,
+    marginBottom: 8,
     color: themeColors.text,
   },
 
@@ -65,31 +90,8 @@ const styles = StyleSheet.create({
   sectionDescription: {
     fontSize: 15,
     marginBottom: 20,
-    paddingHorizontal: 4,
     color: themeColors.placeholder,
-    opacity: 0.7,
-  },
-
-  // Subsection block (e.g. Indian Memes)
-  subsection: {
-    marginBottom: 20,
-  },
-
-  // Subsection title
-  subsectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 12,
-    paddingHorizontal: 4,
-    color: themeColors.text,
     opacity: 0.9,
-  },
-
-  // Card container grid layout
-  cardsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
   },
 
   // Horizontal card layout for upload options
@@ -99,7 +101,6 @@ const styles = StyleSheet.create({
     gap: 16,
   },
 
-  // Card style for "From Gallery" or "From URL"
   createOptionCard: {
     flex: 1,
     padding: 20,
@@ -115,13 +116,11 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
   },
 
-  // Emoji in card
   createOptionEmoji: {
     fontSize: 32,
     marginBottom: 12,
   },
 
-  // Main label in card
   createOptionText: {
     fontSize: 16,
     fontWeight: '600',
@@ -130,12 +129,61 @@ const styles = StyleSheet.create({
     color: themeColors.text,
   },
 
-  // Subtext in card
   createOptionSubtext: {
     fontSize: 13,
     textAlign: 'center',
     color: themeColors.placeholder,
     opacity: 0.8,
+  },
+
+  // --- NEW: Featured Templates Section Styles ---
+  featuredSection: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
+
+  // FlatList styles
+  flatListContent: {
+    paddingTop: 5,
+  },
+
+  flatListRow: {
+    justifyContent: 'space-between',
+    paddingHorizontal: 5,
+  },
+
+  // --- NEW: Footer Section Styles ---
+  footerSection: {
+    paddingHorizontal: 10,
+    paddingTop: 30,
+    paddingBottom: 20,
+    alignItems: 'center',
+    borderTopWidth: 1,
+    borderTopColor: themeColors.border,
+    backgroundColor: themeColors.background,
+  },
+
+  footerTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: themeColors.text,
+    marginBottom: 8,
+  },
+
+  footerText: {
+    fontSize: 15,
+    color: themeColors.placeholder,
+    textAlign: 'center',
+    marginBottom: 10,
+    opacity: 0.9,
+  },
+
+  footerSubtext: {
+    fontSize: 12,
+    color: themeColors.placeholder,
+    textAlign: 'center',
+    opacity: 0.7,
   },
 });
 
