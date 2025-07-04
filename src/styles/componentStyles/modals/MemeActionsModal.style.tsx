@@ -60,6 +60,22 @@ const styles = StyleSheet.create({
     marginTop: 10,
     textAlign: 'center',
   },
+  deletingOverlay: {
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: 'rgba(0,0,0,0.7)',
+},
+deletingLottie: {
+  width: 150,
+  height: 150,
+},
+deletingTextCenter: {
+  marginTop: 20,
+  fontSize: 18,
+  color: '#fff',
+  textAlign: 'center',
+},
 });
 
 export default styles;

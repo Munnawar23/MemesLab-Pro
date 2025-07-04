@@ -21,13 +21,11 @@ import ConnectionBanner from '@components/common/ConnectionBanner';
 import MemeCard from '@components/cards/TemplateCard';
 import styles from '@styles/screenStyles/HomeScreen.styles';
 
-// Import your meme constants
 import { indianMemes, topTemplates } from '@constants/memes';
 
-// --- UPDATED: Navigation param list now includes Templates ---
 type StackParamList = {
   Create: { imageUri: string };
-  Templates: undefined; // For navigating to the templates screen
+  Templates: undefined;
 };
 
 const HomeScreen = () => {
@@ -35,26 +33,39 @@ const HomeScreen = () => {
   const netInfo = useNetInfo();
   const { width } = useWindowDimensions();
 
-  // --- REFS AND STATE FOR CAROUSEL ---
   const scrollViewRef = useRef<ScrollView>(null);
   const [activeSlide, setActiveSlide] = useState(0);
 
-  // --- DATA FOR CAROUSEL WITH ACTIONS ---
+  const featuredTemplates = React.useMemo(() => {
+    const allMemes = [...indianMemes, ...topTemplates];
+    return allMemes.slice(0, 6);
+  }, []);
+
+  const [urlModalVisible, setUrlModalVisible] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
+  const [errorText, setErrorText] = useState('');
+
+  // 🎲 pick random meme & navigate
+  const handleRandomMeme = () => {
+    const allMemes = [...indianMemes, ...topTemplates];
+    const randomIndex = Math.floor(Math.random() * allMemes.length);
+    const randomMeme = allMemes[randomIndex];
+    const randomUri = Image.resolveAssetSource(randomMeme.image).uri;
+    handleNavigateToCreate(randomUri);
+  };
+
   const carouselData = [
     {
       id: 1,
       text: 'Welcome to Meme Creator!',
       animation: require('@assets/animations/welcome.json'),
-      onPress: () => {
-        // Does nothing as requested
-        console.log('Welcome card pressed');
-      },
+      onPress: handleRandomMeme, // 🎯 now runs random meme
     },
     {
       id: 2,
       text: 'Browse All Meme Templates',
       animation: require('@assets/animations/meme.json'),
-      onPress: () => navigation.navigate('Templates'), // Navigates to new screen
+      onPress: () => navigation.navigate('Templates'),
     },
     {
       id: 3,
@@ -64,46 +75,23 @@ const HomeScreen = () => {
         Alert.alert(
           'Hey There!',
           'Thanks for checking out the app. Have a great day! 😄'
-        ), // Shows an alert
+        ),
     },
   ];
 
-  // --- FEATURED TEMPLATES DATA (First 6 memes) ---
-  const featuredTemplates = React.useMemo(() => {
-    const allMemes = [...indianMemes, ...topTemplates];
-    return allMemes.slice(0, 6);
-  }, []);
-
-  // Modal state
-  const [urlModalVisible, setUrlModalVisible] = useState(false);
-  const [imageUrl, setImageUrl] = useState('');
-  const [errorText, setErrorText] = useState('');
-
-  // --- EFFECT FOR AUTO-SCROLLING CAROUSEL ---
   useEffect(() => {
     const interval = setInterval(() => {
-      // Calculate the next slide index
       const nextSlide = (activeSlide + 1) % carouselData.length;
-      
-      // Get the x-offset for the next slide
       const offsetX = nextSlide * width;
-
-      // Scroll to the next slide
       scrollViewRef.current?.scrollTo({ x: offsetX, animated: true });
-      
-      // Update the active slide state
       setActiveSlide(nextSlide);
-    }, 3000); // 3 seconds
-
-    // Clear the interval when the component unmounts
+    }, 3000);
     return () => clearInterval(interval);
-  }, [activeSlide, width]); // Rerun effect if activeSlide changes
+  }, [activeSlide, width]);
 
   const handleScroll = (event: any) => {
     const slide = Math.round(event.nativeEvent.contentOffset.x / width);
-    if (slide !== activeSlide) {
-      setActiveSlide(slide);
-    }
+    if (slide !== activeSlide) setActiveSlide(slide);
   };
 
   const showOfflineAlert = () => {
@@ -153,7 +141,6 @@ const HomeScreen = () => {
     }
   };
 
-  // --- FLATLIST RENDER ITEM ---
   const renderFeaturedTemplate = ({ item, index }: { item: any; index: number }) => (
     <MemeCard
       image={item.image}
@@ -172,7 +159,7 @@ const HomeScreen = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
-        {/* --- REVAMPED HEADER CAROUSEL --- */}
+        {/* --- HEADER CAROUSEL --- */}
         <View style={styles.mainHeader}>
           <ScrollView
             ref={scrollViewRef}
@@ -181,7 +168,7 @@ const HomeScreen = () => {
             showsHorizontalScrollIndicator={false}
             onScroll={handleScroll}
             scrollEventThrottle={16}
-            style={{ width: width }} // Ensure ScrollView takes full width
+            style={{ width }}
             contentContainerStyle={{ alignItems: 'center' }}
           >
             {carouselData.map((item) => (
@@ -241,7 +228,7 @@ const HomeScreen = () => {
           </View>
         </View>
 
-        {/* --- NEW: Featured Templates Section --- */}
+        {/* Featured Templates */}
         <View style={styles.featuredSection}>
           <Text style={styles.primarySectionTitle}>🔥 Featured Templates</Text>
           <Text style={styles.sectionDescription}>
@@ -254,13 +241,12 @@ const HomeScreen = () => {
             keyExtractor={(item, index) => `featured-${index}`}
             numColumns={2}
             columnWrapperStyle={styles.flatListRow}
-            scrollEnabled={false} // Disable scrolling since it's inside ScrollView
+            scrollEnabled={false}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.flatListContent}
           />
         </View>
 
-        {/* --- NEW: Footer Section --- */}
         <View style={styles.footerSection}>
           <Text style={styles.footerTitle}>✨ Made with Love</Text>
           <Text style={styles.footerText}>

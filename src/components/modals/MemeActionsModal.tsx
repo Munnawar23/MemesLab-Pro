@@ -1,19 +1,13 @@
 import React, { useState } from 'react';
-import { Modal, Pressable, Text, View, Alert } from 'react-native';
-// File and sharing
+import { Modal, Pressable, Text, View } from 'react-native';
 import * as Sharing from 'expo-sharing';
 import * as FileSystem from 'expo-file-system';
-// Net Info
 import { useNetInfo } from '@react-native-community/netinfo';
-// Lottie Animation
 import LottieView from 'lottie-react-native';
-// Interfaces
+
 import { Meme } from '@interfaces/index';
-// Services
 import { deleteMeme, toggleFavoriteStatus } from '@services/memeStorage';
-// Components
 import Button from '@components/common/Button';
-// Styles
 import styles from '@styles/componentStyles/modals/MemeActionsModal.style';
 
 interface Props {
@@ -55,10 +49,9 @@ const MemeActionsModal = ({ visible, onClose, meme, setMemes }: Props) => {
         setMemes((prev) => prev.filter((m) => m.id !== meme.id));
         setIsDeleting(false);
         handleClose();
-        Alert.alert('Success', 'Meme deleted!');
       } catch {
-        Alert.alert('Error', 'Failed to delete meme.');
         setIsDeleting(false);
+        handleClose();
       }
     }, 2000);
   };
@@ -73,23 +66,19 @@ const MemeActionsModal = ({ visible, onClose, meme, setMemes }: Props) => {
       );
       handleClose();
     } catch {
-      Alert.alert('Error', 'Failed to update favorite.');
+      handleClose();
     }
   };
 
   const handleShareMeme = async () => {
     if (!meme) return;
 
-    if (!netInfo.isConnected) {
-      Alert.alert('No Internet Connection', 'You need internet to share memes.');
-      return;
-    }
+    if (!netInfo.isConnected) return;
 
     setIsSharing(true);
 
     const available = await Sharing.isAvailableAsync();
     if (!available) {
-      Alert.alert('Error', 'Sharing is not available.');
       setIsSharing(false);
       return;
     }
@@ -107,7 +96,6 @@ const MemeActionsModal = ({ visible, onClose, meme, setMemes }: Props) => {
 
       await Sharing.shareAsync(localUri);
     } catch {
-      Alert.alert('Error', 'Sharing failed.');
     } finally {
       setIsSharing(false);
       handleClose();
@@ -115,74 +103,84 @@ const MemeActionsModal = ({ visible, onClose, meme, setMemes }: Props) => {
   };
 
   return (
-    <Modal
-      animationType="slide"
-      transparent
-      visible={visible}
-      onRequestClose={handleClose}
-    >
-      <Pressable style={styles.overlay} onPress={handleClose}>
-        <Pressable style={styles.modal}>
-          <Text style={styles.title}>
-            {confirmingDelete ? 'Delete Meme' : 'Meme Actions'}
-          </Text>
+    <>
+      <Modal
+        animationType="slide"
+        transparent
+        visible={visible}
+        onRequestClose={handleClose}
+      >
+        <Pressable style={styles.overlay} onPress={handleClose}>
+          <Pressable style={styles.modal}>
+            <Text style={styles.title}>
+              {confirmingDelete ? 'Delete Meme' : 'Meme Actions'}
+            </Text>
 
-          {isDeleting ? (
-            <View style={styles.animationContainer}>
-              <LottieView
-                source={require('@assets/animations/delete.json')}
-                autoPlay
-                loop={false}
-                style={styles.lottieAnimation}
-              />
-              <Text style={styles.deletingText}>Deleting...</Text>
-            </View>
-          ) : confirmingDelete ? (
-            <>
-              <Text style={styles.deleteMessage}>
-                Are you sure you want to delete this meme?
-              </Text>
-              <View style={styles.deleteButtonContainer}>
+            {confirmingDelete ? (
+              <>
+                <Text style={styles.deleteMessage}>
+                  Are you sure you want to delete this meme?
+                </Text>
+                <View style={styles.deleteButtonContainer}>
+                  <Button
+                    label="Cancel"
+                    onPress={handleCancelDelete}
+                    style={styles.cancelDeleteButton}
+                  />
+                  <Button
+                    label="Delete"
+                    onPress={handleConfirmDelete}
+                    style={styles.confirmDeleteButton}
+                  />
+                </View>
+              </>
+            ) : (
+              <>
+                <Button
+                  label={meme?.isFavorite ? '❤️ Remove from Favorites' : '🤍 Add to Favorites'}
+                  onPress={handleToggleFavorite}
+                  disabled={isSharing}
+                />
+                <Button
+                  label={isSharing ? 'Sharing...' : '📤 Share Meme'}
+                  onPress={handleShareMeme}
+                  disabled={isSharing}
+                />
+                <Button
+                  label="🗑️ Delete Meme"
+                  onPress={handleDeletePress}
+                  style={{ backgroundColor: '#ff3b30' }}
+                  disabled={isSharing}
+                />
                 <Button
                   label="Cancel"
-                  onPress={handleCancelDelete}
-                  style={styles.cancelDeleteButton}
+                  onPress={handleClose}
+                  style={styles.cancelButton}
                 />
-                <Button
-                  label="Delete"
-                  onPress={handleConfirmDelete}
-                  style={styles.confirmDeleteButton}
-                />
-              </View>
-            </>
-          ) : (
-            <>
-              <Button
-                label={meme?.isFavorite ? '❤️ Remove from Favorites' : '🤍 Add to Favorites'}
-                onPress={handleToggleFavorite}
-                disabled={isSharing}
-              />
-              <Button
-                label={isSharing ? 'Sharing...' : '📤 Share Meme'}
-                onPress={handleShareMeme}
-                disabled={isSharing}
-              />
-              <Button
-                label="🗑️ Delete Meme"
-                onPress={handleDeletePress}
-                style={{ backgroundColor: '#ff3b30' }}
-                disabled={isSharing}
-              />
-              <Button
-                label="Cancel"
-                onPress={handleClose}
-                style={styles.cancelButton}
-              />
-            </>
-          )}
+              </>
+            )}
+          </Pressable>
         </Pressable>
-      </Pressable>
-    </Modal>
+      </Modal>
+
+      {/* Fullscreen Delete Animation */}
+      <Modal
+        visible={isDeleting}
+        transparent
+        animationType="fade"
+        onRequestClose={() => {}}
+      >
+        <View style={styles.deletingOverlay}>
+          <LottieView
+            source={require('@assets/animations/delete.json')}
+            autoPlay
+            loop={false}
+            style={styles.deletingLottie}
+          />
+          <Text style={styles.deletingTextCenter}>Deleting...</Text>
+        </View>
+      </Modal>
+    </>
   );
 };
 

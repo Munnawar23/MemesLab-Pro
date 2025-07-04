@@ -10,9 +10,11 @@ import {
   TouchableOpacity,
   Text,
   Dimensions,
+  Modal,
 } from 'react-native';
 import { useRoute, useNavigation, RouteProp, NavigationProp } from '@react-navigation/native';
 import ViewShot from 'react-native-view-shot';
+import LottieView from 'lottie-react-native';
 
 import { saveMeme } from '@services/memeStorage';
 import Button from '@components/common/Button';
@@ -30,7 +32,7 @@ type CreateScreenRouteProp = RouteProp<RootStackParamList, 'Create'>;
 type CreateScreenNavigationProp = NavigationProp<RootStackParamList>;
 
 const TEXT_COLORS = ['#FFFFFF', '#000000', '#FFD700', '#FF4500', '#32CD32', '#1E90FF', '#9400D3'];
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 const canvasWidth = width;
 const canvasHeight = canvasWidth;
 
@@ -44,7 +46,9 @@ const CreateScreen = () => {
   ]);
   const [textColor, setTextColor] = useState('#FFFFFF');
   const [isSaving, setIsSaving] = useState(false);
+  const [showLottieAnimation, setShowLottieAnimation] = useState(false);
   const viewShotRef = useRef<ViewShot>(null);
+  const lottieRef = useRef<LottieView>(null);
 
   const addTextInput = () => {
     const newTextInput: TextInputState = {
@@ -72,33 +76,36 @@ const CreateScreen = () => {
   };
 
   const handleSave = async () => {
-    if (!viewShotRef.current) return;
+  if (!viewShotRef.current) return;
 
-    setIsSaving(true);
+  setIsSaving(true);
 
-    try {
-      const uri = await viewShotRef.current.capture?.();
+  try {
+    const uri = await viewShotRef.current?.capture?.();
 
-      if (!uri) {
-        Alert.alert('Error', 'Could not capture the meme.');
-        return;
-      }
-
-      await saveMeme({ imageUri: uri });
-
-      Alert.alert('Success', 'Meme saved successfully!', [
-        {
-          text: 'OK',
-          onPress: () => navigation.navigate('Main', { screen: 'Gallery' }),
-        },
-      ]);
-    } catch (err) {
-      console.error(err);
-      Alert.alert('Error', 'Something went wrong while saving the meme.');
-    } finally {
+    if (!uri) {
       setIsSaving(false);
+      Alert.alert('Error', 'Could not capture the meme.');
+      return;
     }
-  };
+
+    await saveMeme({ imageUri: uri });
+
+    // start the Lottie animation
+    setShowLottieAnimation(true);
+    setIsSaving(false);
+  } catch (err) {
+    console.error(err);
+    setIsSaving(false);
+    Alert.alert('Error', 'Something went wrong while saving the meme.');
+  }
+};
+
+
+ const onLottieAnimationFinish = () => {
+  setShowLottieAnimation(false);
+  navigation.navigate('Main', { screen: 'My Memes' });
+};
 
   return (
     <KeyboardAvoidingView
@@ -109,6 +116,8 @@ const CreateScreen = () => {
         contentContainerStyle={styles.scrollContainer}
         keyboardShouldPersistTaps="handled"
       >
+        <Text style={styles.headerText}>Create Your Meme</Text>
+        
         <ViewShot ref={viewShotRef} style={styles.canvasContainer} options={{ format: 'jpg', quality: 0.9 }}>
           <Image source={{ uri: imageUri }} style={styles.image} />
           
@@ -122,7 +131,7 @@ const CreateScreen = () => {
               textColor={textColor}
               initialY={input.initialY}
               canvasWidth={canvasWidth}
-              isSaving={isSaving}  // 👈 here
+              isSaving={isSaving}
             />
           ))}
         </ViewShot>
@@ -149,12 +158,35 @@ const CreateScreen = () => {
         </TouchableOpacity>
 
         <View style={styles.buttonContainer}>
-          {isSaving
+          {isSaving && !showLottieAnimation
             ? <ActivityIndicator size="large" color={styles.activeColorSwatch.borderColor} />
-            : <Button label="Save Meme" onPress={handleSave} />
+            : <Button label="Save Meme" onPress={handleSave} disabled={isSaving} />
           }
         </View>
       </ScrollView>
+
+      {/* Lottie Animation Modal */}
+      <Modal
+        visible={showLottieAnimation}
+        transparent={false}
+        animationType="fade"
+        onRequestClose={() => {}}
+        statusBarTranslucent={true}
+      >
+        <View style={styles.lottieModalContainer}>
+          <View style={styles.lottieWrapper}>
+            <LottieView
+              ref={lottieRef}
+              source={require('@assets/animations/done.json')} // Replace with your Lottie file path
+              style={styles.lottieAnimation}
+              autoPlay
+              loop={false}
+              onAnimationFinish={onLottieAnimationFinish}
+              resizeMode="contain"
+            />
+          </View>
+        </View>
+      </Modal>
     </KeyboardAvoidingView>
   );
 };

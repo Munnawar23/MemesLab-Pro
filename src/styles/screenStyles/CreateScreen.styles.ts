@@ -1,20 +1,22 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { themeColors } from '@styles/globalStyles/themeColors';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 const canvasSize = width; // ⬅️ full width, no -40
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: themeColors.background,
+    paddingTop: 20
   },
 
   scrollContainer: {
     flexGrow: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    padding: 0, // ⬅️ remove padding
+    justifyContent: 'flex-start',
+    padding: 0, 
   },
 
   canvasContainer: {
@@ -84,9 +86,42 @@ const styles = StyleSheet.create({
   },
 
   buttonContainer: {
-    width: '100%',
+    width: '90%',
     marginTop: 10,
   },
+  headerText: {
+  fontSize: 24,
+  fontWeight: 'bold',
+  color: themeColors.text,
+  marginBottom: 20,
+  textAlign: 'center',
+},
+lottieModalContainer: {
+    flex: 1,
+    backgroundColor: '#2196F3', // Blue background
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: width,
+    height: height,
+  },
+  
+  lottieWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+  
+  lottieAnimation: {
+    width: Math.min(width * 0.6, 250), // 60% of screen width or max 250px
+    height: Math.min(width * 0.6, 250), // Keep it square
+    alignSelf: 'center',
+  },
+
 });
 
 export default styles;
