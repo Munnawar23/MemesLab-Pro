@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, TouchableOpacity, Text, View } from 'react-native'; // Keep TextInput here
+import { TextInput, TouchableOpacity, Text, View } from 'react-native';
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedGestureHandler,
@@ -9,9 +9,6 @@ import Animated, {
 
 import styles from '@styles/componentStyles/common/DraggableTextInput.styles';
 
-// --- CHANGE 1: REMOVE THIS LINE ---
-// const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
-
 interface Props {
   id: number;
   value: string;
@@ -20,6 +17,7 @@ interface Props {
   textColor: string;
   initialY: number;
   canvasWidth: number;
+  isSaving?: boolean;  // 👈 NEW
 }
 
 const DraggableTextInput = ({
@@ -30,6 +28,7 @@ const DraggableTextInput = ({
   textColor,
   initialY,
   canvasWidth,
+  isSaving,
 }: Props) => {
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(initialY);
@@ -71,35 +70,41 @@ const DraggableTextInput = ({
         { width: canvasWidth },
       ]}
     >
-      <View style={styles.textInputWrapper}>
-        {/* --- CHANGE 2: USE A STANDARD TextInput --- */}
+      <View
+        style={[
+          styles.textInputWrapper,
+          isSaving && { borderWidth: 0, backgroundColor: 'transparent' }
+        ]}
+      >
         <TextInput
           style={[styles.memeText, { color: textColor }]}
           placeholder="ADD TEXT HERE"
-          placeholderTextColor={`${textColor}`}
+          placeholderTextColor={textColor}
           value={value}
           onChangeText={(text) => onChangeText(id, text)}
           multiline
           scrollEnabled={false}
-          editable={true}
+          editable={!isSaving}
         />
 
-        <TouchableOpacity
-          style={styles.closeButtonCenter}
-          onPress={() => onClose(id)}
-        >
-          <Text style={styles.closeButtonText}>✕</Text>
-        </TouchableOpacity>
+        {!isSaving && (
+          <>
+            <TouchableOpacity
+              style={styles.closeButtonCenter}
+              onPress={() => onClose(id)}
+            >
+              <Text style={styles.closeButtonText}>✕</Text>
+            </TouchableOpacity>
 
-        {renderDragHandle(styles.dragHandleTopLeft, 'tl')}
-        {renderDragHandle(styles.dragHandleTopRight, 'tr')}
-        {renderDragHandle(styles.dragHandleBottomLeft, 'bl')}
-        {renderDragHandle(styles.dragHandleBottomRight, 'br')}
+            {renderDragHandle(styles.dragHandleTopLeft, 'tl')}
+            {renderDragHandle(styles.dragHandleTopRight, 'tr')}
+            {renderDragHandle(styles.dragHandleBottomLeft, 'bl')}
+            {renderDragHandle(styles.dragHandleBottomRight, 'br')}
+          </>
+        )}
       </View>
     </Animated.View>
   );
 };
 
-// You can optionally wrap this in React.memo for a performance boost,
-// so it only re-renders when its specific props change.
 export default React.memo(DraggableTextInput);
