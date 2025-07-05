@@ -1,6 +1,6 @@
 {
   "name": "MemesLab Pro",
-  "slug": "memeslab-pro",
+  "slug": "memesLab-pro",
   "main": "index.ts",
   "scripts": {
     "start": "expo start",
