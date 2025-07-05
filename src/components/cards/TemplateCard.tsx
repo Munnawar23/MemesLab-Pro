@@ -15,7 +15,6 @@ interface Props {
 }
 
 // Renders a meme template card with an image and a title below it.
-// Designed to be used in a two-column grid.
 const TemplateCard = ({ image, title, onPress }: Props) => (
   <TouchableOpacity onPress={onPress} style={styles.cardContainer} activeOpacity={0.8}>
     <View style={styles.card}>
