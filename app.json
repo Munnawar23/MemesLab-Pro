@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "memesLab-pro",
-    "slug": "memesLab-pro",
+    "name": "MemesLab Pro",
+    "slug": "memeslab-pro",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/icon.png",
@@ -13,18 +13,33 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "bundleIdentifier": "com.munnawar.memeslabpro",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
+      "package": "com.munnawar.memeslabpro",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
+      "permissions": [],
       "softwareKeyboardLayoutMode": "resize"
     },
     "web": {
       "favicon": "./src/assets/images/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "cd8bc46f-4a40-4f74-bcc9-5e99d878efc4"
+      }
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ]
   }
 }

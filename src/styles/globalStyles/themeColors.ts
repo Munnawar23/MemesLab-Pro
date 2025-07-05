@@ -16,22 +16,21 @@ export interface AppTheme {
   quizButtonDefault: string;
 }
 
-// The specific color palette for the application - Soft Yellow & Warm Neutrals theme
 export const themeColors: AppTheme = {
-  background: '#FFFDE7',            // Soft pale yellow background
-  card: '#FFFFFF',                  // Clean white for cards
-  text: '#5D4037',                  // Warm dark brown for readable text
-  primary: '#FFECB3',              // Buttery soft yellow for primary highlights
-  secondaryText: '#8D6E63',         // Muted warm brown for secondary text
-  border: '#FFEE58',                // Bright soft yellow border
-  placeholder: '#BDBDBD',           // Neutral gray for placeholder text
-  badgeBackground: '#FFD54F',       // Vibrant golden yellow for badges
-  badgeText: '#5D4037',             // Dark brown on light backgrounds
-  accent: '#FFB74D',                // Warm orange accent
-  mutedBackground: '#FFF9C4',       // Very light yellow for section backgrounds
-  quizCardBackground: '#FFF8E1',    // Soft cream for quiz cards
-  quizButtonCorrect: '#AED581',     // Fresh light green for correct answers
-  quizButtonDefault: '#F5F5F5',     // Light gray for default buttons
+  background: '#FFFDE7',            
+  card: '#FFFFFF',                  
+  text: '#5D4037',                  
+  primary: '#FFECB3',              
+  secondaryText: '#8D6E63',       
+  border: '#FFEE58',                
+  placeholder: '#BDBDBD',           
+  badgeBackground: '#FFD54F',       
+  badgeText: '#5D4037',             
+  accent: '#FFB74D',
+  mutedBackground: '#FFF9C4',       
+  quizCardBackground: '#FFF8E1',    
+  quizButtonCorrect: '#AED581',    
+  quizButtonDefault: '#F5F5F5',     
 };
 
 // Fonts remain unchanged
