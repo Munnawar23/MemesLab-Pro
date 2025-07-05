@@ -32,7 +32,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "cd8bc46f-4a40-4f74-bcc9-5e99d878efc4"
+        "projectId": "e825a55e-0312-497c-977a-60c98bc8fa6b"
       }
     },
     "updates": {
@@ -40,6 +40,7 @@
     },
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "owner": "munnawar"
   }
 }
