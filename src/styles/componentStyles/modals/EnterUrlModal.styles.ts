@@ -9,12 +9,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  // The main container for the modal's content.
   modalContent: {
     width: '90%',
     padding: 24,
     borderRadius: 16,
-    backgroundColor: themeColors.card, // Use the light card color for the background.
+    backgroundColor: themeColors.card,
     elevation: 5,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -22,16 +21,14 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
   },
 
-  // The title text of the modal.
   modalTitle: {
     fontSize: 16,
     marginBottom: 16,
     textAlign: 'center',
     color: themeColors.text,
-    fontFamily: fonts.heading, // Use the primary heading font.
+    fontFamily: fonts.heading,
   },
 
-  // The text input field for the URL.
   input: {
     borderWidth: 1,
     borderRadius: 12,
@@ -41,19 +38,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: themeColors.text,
     borderColor: themeColors.border,
-    fontFamily: fonts.bodyMedium, // Use the standard body font for input.
+    fontFamily: fonts.bodyMedium,
   },
 
-  // The style for validation error messages.
   errorText: {
-    color: '#d63031', // A standard red for errors is often best for UX.
+    color: '#d63031',
     fontSize: 14,
     marginBottom: 16,
     textAlign: 'center',
     fontFamily: fonts.bodyMedium,
   },
 
-  // Container for the action buttons, aligned to the right.
   modalButtons: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
@@ -61,9 +56,14 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
 
-  // Ensures buttons in the row take up equal space.
   modalButton: {
     flex: 1,
+  },
+
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

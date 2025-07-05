@@ -1,8 +1,8 @@
 import React from 'react';
-import { Modal, View, Text, TextInput } from 'react-native';
+import { Modal, View, Text, TextInput, ActivityIndicator } from 'react-native';
 import Button from '@components/common/Button';
 import styles from '@styles/componentStyles/modals/EnterUrlModal.styles';
-import { themeColors } from '../../styles/globalStyles/themeColors'; 
+import { themeColors } from '../../styles/globalStyles/themeColors';
 
 interface Props {
   visible: boolean;
@@ -11,6 +11,7 @@ interface Props {
   onChangeUrl: (text: string) => void;
   errorText: string;
   onSubmit: () => void;
+  loading: boolean; // New prop
 }
 
 // A modal that allows users to input an image URL.
@@ -21,6 +22,7 @@ const EnterUrlModal = ({
   onChangeUrl,
   errorText,
   onSubmit,
+  loading,
 }: Props) => {
   return (
     <Modal
@@ -36,7 +38,6 @@ const EnterUrlModal = ({
           <TextInput
             style={styles.input}
             placeholder="https://example.com/meme.jpg"
-            // Use the placeholder color directly from the theme object.
             placeholderTextColor={themeColors.placeholder}
             value={imageUrl}
             onChangeText={onChangeUrl}
@@ -45,7 +46,6 @@ const EnterUrlModal = ({
             keyboardType="url"
           />
 
-          {/* Display an error message if one is provided. */}
           {!!errorText && <Text style={styles.errorText}>{errorText}</Text>}
 
           <View style={styles.modalButtons}>
@@ -54,13 +54,20 @@ const EnterUrlModal = ({
               onPress={onClose}
               variant="secondary"
               style={styles.modalButton}
+              disabled={loading}
             />
-            <Button
-              label="OK"
-              onPress={onSubmit}
-              variant="default"
-              style={styles.modalButton}
-            />
+            {loading ? (
+              <View style={[styles.modalButton, styles.loaderContainer]}>
+                <ActivityIndicator size="small" color="black" />
+              </View>
+            ) : (
+              <Button
+                label="OK"
+                onPress={onSubmit}
+                variant="default"
+                style={styles.modalButton}
+              />
+            )}
           </View>
         </View>
       </View>

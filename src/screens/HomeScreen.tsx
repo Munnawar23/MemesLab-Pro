@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,23 +7,23 @@ import {
   useWindowDimensions,
   FlatList,
   Image,
-} from 'react-native';
-import { useNavigation, NavigationProp } from '@react-navigation/native';
-import LottieView from 'lottie-react-native';
+} from "react-native";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
+import LottieView from "lottie-react-native";
 // --- MODIFIED ---: We will use Expo's built-in tools
-import * as ImagePicker from 'expo-image-picker';
-import * as ImageManipulator from 'expo-image-manipulator';
-import { useNetInfo } from '@react-native-community/netinfo';
+import * as ImagePicker from "expo-image-picker";
+import * as ImageManipulator from "expo-image-manipulator";
+import { useNetInfo } from "@react-native-community/netinfo";
 
-import { getCarouselData } from '@constants/carousel';
-import EnterUrlModal from '@components/modals/EnterUrlModal';
-import ImportantMessageModal from '@components/modals/ImportantMessageModal';
-import { downloadAndCacheImage } from '@services/imageCaching';
-import { copyImageToAppDir } from '@utils/imageUtils';
-import ConnectionBanner from '@components/common/ConnectionBanner';
-import MemeCard from '@components/cards/TemplateCard';
-import styles from '@styles/screenStyles/HomeScreen.styles';
-import { allMemes } from '@constants/memes';
+import { getCarouselData } from "@constants/carousel";
+import EnterUrlModal from "@components/modals/EnterUrlModal";
+import ImportantMessageModal from "@components/modals/ImportantMessageModal";
+import { downloadAndCacheImage } from "@services/imageCaching";
+import { copyImageToAppDir } from "@utils/imageUtils";
+import ConnectionBanner from "@components/common/ConnectionBanner";
+import MemeCard from "@components/cards/TemplateCard";
+import styles from "@styles/screenStyles/HomeScreen.styles";
+import { allMemes } from "@constants/memes";
 
 // Defines the navigation stack parameters for type-safe navigation.
 type StackParamList = {
@@ -46,6 +46,7 @@ const HomeScreen = () => {
   // A reference to the carousel ScrollView for programmatic scrolling.
   const scrollViewRef = useRef<ScrollView>(null);
   const [activeSlide, setActiveSlide] = useState(0);
+  const [loadingUrl, setLoadingUrl] = useState(false);
 
   // Memoizes the featured templates to prevent re-computation on every render.
   const featuredTemplates = React.useMemo(() => {
@@ -54,22 +55,23 @@ const HomeScreen = () => {
 
   // State for managing the visibility and content of the URL input modal.
   const [urlModalVisible, setUrlModalVisible] = useState(false);
-  const [imageUrl, setImageUrl] = useState('');
-  const [errorText, setErrorText] = useState('');
+  const [imageUrl, setImageUrl] = useState("");
+  const [errorText, setErrorText] = useState("");
 
   // State for the generic informational modal.
   const [infoModal, setInfoModal] = useState<InfoModalState>({
     visible: false,
-    title: '',
-    message: '',
+    title: "",
+    message: "",
   });
 
   // Displays a modal informing the user that an action requires internet.
   const showOfflineWarning = () => {
     setInfoModal({
       visible: true,
-      title: 'Connection Error',
-      message: 'An internet connection is required for this action. Please check your connection and try again.',
+      title: "Connection Error",
+      message:
+        "An internet connection is required for this action. Please check your connection and try again.",
     });
   };
 
@@ -77,8 +79,9 @@ const HomeScreen = () => {
   const showImportantMessage = () => {
     setInfoModal({
       visible: true,
-      title: 'Important Message',
-      message: 'Please use this app responsibly. It is intended for fun, and you should not use anyone\'s photo without their consent.',
+      title: "Important Message",
+      message:
+        "Please use this app responsibly. It is intended for fun, and you should not use anyone's photo without their consent.",
     });
   };
 
@@ -95,13 +98,13 @@ const HomeScreen = () => {
 
   // Navigates to the meme creation screen with a specific image URI.
   const handleNavigateToCreate = (uri: string) => {
-    navigation.navigate('Create', { imageUri: uri });
+    navigation.navigate("Create", { imageUri: uri });
   };
 
   // Retrieves the data for the main feature carousel.
   const carouselData = getCarouselData(
     handleNavigateToCreate,
-    withNetworkCheck(() => navigation.navigate('Templates')),
+    withNetworkCheck(() => navigation.navigate("Templates")),
     showImportantMessage,
     withNetworkCheck
   );
@@ -126,52 +129,60 @@ const HomeScreen = () => {
   const openGallery = async () => {
     // Step 1: Pick an image using expo-image-picker
     const result = await ImagePicker.launchImageLibraryAsync({
-       mediaTypes: ['images', 'videos'],
+      mediaTypes: ["images", "videos"],
       quality: 1,
       // We set allowsEditing to true to get a simple cropping UI from the system
-      allowsEditing: true, 
+      allowsEditing: true,
       aspect: [1, 1], // Enforce a square aspect ratio for the crop
     });
 
     if (result.canceled) {
       return; // User cancelled the picker
     }
-    
+
     // The result from allowsEditing:true is already a cropped, temporary image.
     // We just need to copy it to a permanent location.
     try {
       const permanentUri = await copyImageToAppDir(result.assets[0].uri);
       handleNavigateToCreate(permanentUri);
     } catch (error) {
-       console.error("Could not process image: ", error);
-       setInfoModal({
-         visible: true,
-         title: 'Error',
-         message: 'Could not process the selected image.',
-       });
+      console.error("Could not process image: ", error);
+      setInfoModal({
+        visible: true,
+        title: "Error",
+        message: "Could not process the selected image.",
+      });
     }
   };
 
   // Opens the URL input modal.
   const openUrlModal = () => {
-    setImageUrl('');
-    setErrorText('');
+    setImageUrl("");
+    setErrorText("");
     setUrlModalVisible(true);
   };
 
   // Handles the submission of an image URL.
   const handleSubmitUrl = async () => {
-    if (!imageUrl) return setErrorText('URL cannot be empty.');
+    if (!imageUrl) {
+      return setErrorText("URL cannot be empty.");
+    }
+
+    setLoadingUrl(true);
+    setErrorText("");
+
     try {
       const cachedUri = await downloadAndCacheImage(imageUrl);
       if (cachedUri) {
         setUrlModalVisible(false);
         handleNavigateToCreate(cachedUri);
       } else {
-        setErrorText('Failed to load image. Check the URL.');
+        setErrorText("Failed to load image. Check the URL.");
       }
     } catch {
-      setErrorText('Please enter a valid image URL.');
+      setErrorText("Please enter a valid image URL.");
+    } finally {
+      setLoadingUrl(false);
     }
   };
 
@@ -194,7 +205,7 @@ const HomeScreen = () => {
         contentContainerStyle={styles.scrollContent}
       >
         {/* ... (rest of your JSX is unchanged) ... */}
-        
+
         <View style={styles.mainHeader}>
           <ScrollView
             ref={scrollViewRef}
@@ -297,6 +308,7 @@ const HomeScreen = () => {
         onChangeUrl={setImageUrl}
         errorText={errorText}
         onSubmit={withNetworkCheck(handleSubmitUrl)}
+        loading={loadingUrl}
       />
 
       <ImportantMessageModal
