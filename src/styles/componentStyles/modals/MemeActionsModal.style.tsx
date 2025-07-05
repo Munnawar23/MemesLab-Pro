@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { themeColors, fonts } from '@styles/globalStyles/themeColors';
+import { themeColors, fonts } from '../../globalStyles/themeColors';
 
 const styles = StyleSheet.create({
   // The pressable overlay that covers the screen, used to close the modal.
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 
   // The title of the action sheet.
   title: {
-    fontSize: 20,
+    fontSize: 18,
     color: themeColors.text,
     textAlign: 'center',
     marginBottom: 24,
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 
   // The confirmation message for the delete action.
   deleteMessage: {
-    fontSize: 16,
+    fontSize: 14,
     color: themeColors.secondaryText,
     textAlign: 'center',
     marginBottom: 20,
@@ -52,11 +52,16 @@ const styles = StyleSheet.create({
 
   // Full-screen overlay for the "Deleting..." animation.
   deletingOverlay: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-  },
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: '#FFECB3', // soft yellow now
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+},
 
   // The Lottie animation view.
   deletingLottie: {

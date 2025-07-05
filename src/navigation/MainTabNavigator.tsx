@@ -4,9 +4,9 @@ import { Ionicons } from '@expo/vector-icons';
 
 import HomeScreen from '@screens/HomeScreen';
 import MyMemesScreen from '@screens/MyMemesScreen';
-import FavoritesScreen from '@screens/FavouritesScreen';
+import FavoritesScreen from '@screens/FavoritesScreen';
 import TemplatesScreen from '@screens/TemplatesScreen';
-import { themeColors, fonts } from '@styles/globalStyles/themeColors';
+import { themeColors, fonts } from '../styles/globalStyles/themeColors';
 
 // Defines the routes available in the bottom tab navigator.
 export type TabParamList = {
@@ -22,20 +22,19 @@ const Tab = createBottomTabNavigator<TabParamList>();
 const MainTabNavigator = () => {
   return (
     <Tab.Navigator
-      // This function provides a central configuration for all screens in the tab navigator.
       screenOptions={({ route }) => ({
         headerShown: true,
         headerStyle: {
           backgroundColor: themeColors.primary,
           height: 100,
         },
-        headerTintColor: themeColors.badgeText, // Use light text on the primary background.
+        headerTintColor: themeColors.badgeText, 
         headerTitleStyle: {
-          fontFamily: fonts.heading, // Use the heading font for screen titles.
-          fontSize: 18,
+          fontFamily: fonts.heading, 
+          fontSize: 16,
         },
-        tabBarActiveTintColor: themeColors.primary,
-        tabBarInactiveTintColor: themeColors.secondaryText, // Use a themed gray for inactive tabs.
+        tabBarActiveTintColor: themeColors.badgeText,
+        tabBarInactiveTintColor: themeColors.secondaryText, 
         tabBarStyle: {
           backgroundColor: themeColors.card,
           borderTopColor: themeColors.border,

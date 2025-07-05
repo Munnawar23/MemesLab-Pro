@@ -138,7 +138,6 @@ const MemeActionsModal: React.FC<Props> = ({
                   <Button
                     label="Cancel"
                     onPress={handleCancelDelete}
-                    variant="secondary" // Neutral 'cancel' button
                     style={styles.actionButton}
                   />
                   <Button
@@ -174,7 +173,6 @@ const MemeActionsModal: React.FC<Props> = ({
                 <Button
                   label="Cancel"
                   onPress={handleClose}
-                  variant="secondary"
                 />
               </>
             )}

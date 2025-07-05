@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, View, Text, TextInput } from 'react-native';
 import Button from '@components/common/Button';
 import styles from '@styles/componentStyles/modals/EnterUrlModal.styles';
-import { themeColors } from '@styles/globalStyles/themeColors'; 
+import { themeColors } from '../../styles/globalStyles/themeColors'; 
 
 interface Props {
   visible: boolean;

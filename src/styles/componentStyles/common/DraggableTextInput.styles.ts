@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { themeColors, fonts } from '@styles/globalStyles/themeColors';
+import { themeColors, fonts } from '../../globalStyles/themeColors';
 
 const styles = StyleSheet.create({
   // The main container that is positioned absolutely and can be moved.
@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
 
   // A wrapper around the text input, providing a dashed border for visual guidance.
   textInputWrapper: {
-    width: '85%',
+    width: '80%',
     padding: 8,
     borderWidth: 2,
     borderStyle: 'dashed',
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 
   // The style for the meme text itself.
   memeText: {
-    fontSize: 30,
+    fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
     textShadowColor: 'rgba(0, 0, 0, 0.95)',
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     top: -15,
     left: '50%',
     transform: [{ translateX: -10 }],
-    backgroundColor: themeColors.text, // Dark background.
+    backgroundColor: "#fff",
     width: 20,
     height: 20,
     borderRadius: 10,

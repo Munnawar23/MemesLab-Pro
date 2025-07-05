@@ -11,7 +11,7 @@ import ConnectionBanner from '@components/common/ConnectionBanner';
 import MemeActionsModal from '@components/modals/MemeActionsModal';
 import ImportantMessageModal from '@components/modals/ImportantMessageModal';
 import styles from '@styles/screenStyles/FavoritesScreen.styles';
-import { themeColors } from '@styles/globalStyles/themeColors';
+import { themeColors } from '../styles/globalStyles/themeColors';
 
 // Defines the structure for the informational modal's state.
 type InfoModalState = {

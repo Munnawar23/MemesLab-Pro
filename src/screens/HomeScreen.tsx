@@ -10,7 +10,9 @@ import {
 } from 'react-native';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
+// --- MODIFIED ---: We will use Expo's built-in tools
 import * as ImagePicker from 'expo-image-picker';
+import * as ImageManipulator from 'expo-image-manipulator';
 import { useNetInfo } from '@react-native-community/netinfo';
 
 import { getCarouselData } from '@constants/carousel';
@@ -120,16 +122,33 @@ const HomeScreen = () => {
     if (slide !== activeSlide) setActiveSlide(slide);
   };
 
-  // Opens the device's image library to select an image.
+  // --- MODIFIED ---: This is the new openGallery function using only Expo tools.
   const openGallery = async () => {
+    // Step 1: Pick an image using expo-image-picker
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images', 'videos'],
+       mediaTypes: ['images', 'videos'],
       quality: 1,
-      allowsEditing: true,
+      // We set allowsEditing to true to get a simple cropping UI from the system
+      allowsEditing: true, 
+      aspect: [1, 1], // Enforce a square aspect ratio for the crop
     });
-    if (!result.canceled) {
+
+    if (result.canceled) {
+      return; // User cancelled the picker
+    }
+    
+    // The result from allowsEditing:true is already a cropped, temporary image.
+    // We just need to copy it to a permanent location.
+    try {
       const permanentUri = await copyImageToAppDir(result.assets[0].uri);
       handleNavigateToCreate(permanentUri);
+    } catch (error) {
+       console.error("Could not process image: ", error);
+       setInfoModal({
+         visible: true,
+         title: 'Error',
+         message: 'Could not process the selected image.',
+       });
     }
   };
 
@@ -170,11 +189,12 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <ConnectionBanner />
-
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
+        {/* ... (rest of your JSX is unchanged) ... */}
+        
         <View style={styles.mainHeader}>
           <ScrollView
             ref={scrollViewRef}

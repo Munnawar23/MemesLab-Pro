@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { themeColors, fonts } from '@styles/globalStyles/themeColors';
+import { themeColors, fonts } from '../globalStyles/themeColors';
 
 const styles = StyleSheet.create({
   // The main container for the screen, covering the full area.
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 
   // The informational text displayed when the favorites list is empty.
   infoText: {
-    fontSize: 18,
+    fontSize: 14,
     color: themeColors.secondaryText,
     textAlign: 'center',
     lineHeight: 26,

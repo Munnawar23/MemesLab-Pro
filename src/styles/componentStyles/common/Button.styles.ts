@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { themeColors, fonts } from '@styles/globalStyles/themeColors';
+import { themeColors, fonts } from '../../globalStyles/themeColors';
 
 const styles = StyleSheet.create({
   // The base style for all button variants.
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   // The style for the text label inside the button.
   buttonText: {
     color: themeColors.badgeText, // White text contrasts well on all variants.
-    fontSize: 16,
+    fontSize: 13,
     // Use the heading font for a distinct, impactful button label.
     fontFamily: fonts.heading,
   },

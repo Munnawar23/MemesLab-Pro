@@ -6,7 +6,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import styles from '@styles/componentStyles/common/Button.styles';
-import { themeColors } from '@styles/globalStyles/themeColors'; // Import theme for the spinner color
+import { themeColors } from '../../styles/globalStyles/themeColors'; // Import theme for the spinner color
 
 interface Props {
   label: string;

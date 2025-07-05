@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { themeColors, fonts } from '@styles/globalStyles/themeColors';
+import { themeColors, fonts } from '../globalStyles/themeColors';
 
 const { width, height } = Dimensions.get('window');
 const canvasSize = width;
@@ -10,13 +10,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: themeColors.background,
   },
-  scrollContainer: {
-    flexGrow: 1,
+  contentContainer: {
+    flex: 1,
     alignItems: 'center',
     paddingBottom: 30,
   },
   headerText: {
-    fontSize: 18,
+    fontSize: 15,
     color: themeColors.text,
     marginTop: 20,
     marginBottom: 20,
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
   addTextButtonText: {
     color: themeColors.text,
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: fonts.bodyBold, // A bold font for a clear call to action.
   },
   buttonContainer: {
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   // --- Lottie Animation Modal ---
   lottieModalContainer: {
     flex: 1,
-    backgroundColor: '#2196F3', // Blue background
+    backgroundColor: '#FFECB3', 
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',

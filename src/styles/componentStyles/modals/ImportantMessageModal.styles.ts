@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { themeColors, fonts } from '@styles/globalStyles/themeColors';
+import { themeColors, fonts } from '../../globalStyles/themeColors';
 
 export const styles = StyleSheet.create({
   // A dark, semi-transparent overlay that covers the entire screen.
@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
 
   // The main title of the modal.
   modalTitle: {
-    fontSize: 22,
+    fontSize: 15,
     color: themeColors.text,
     textAlign: 'center',
     marginBottom: 15,
@@ -53,7 +53,7 @@ export const styles = StyleSheet.create({
 
   // The descriptive message text.
   modalMessage: {
-    fontSize: 16,
+    fontSize: 14,
     color: themeColors.secondaryText, // Use secondary text color for readability.
     textAlign: 'center',
     lineHeight: 24,
@@ -73,7 +73,7 @@ export const styles = StyleSheet.create({
   
   buttonText: {
     color: themeColors.badgeText,
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: fonts.bodyMedium,
     textAlign: 'center',
     fontWeight: '600',

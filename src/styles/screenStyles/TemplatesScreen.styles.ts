@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { themeColors, fonts } from '@styles/globalStyles/themeColors';
+import { themeColors, fonts } from '../globalStyles/themeColors';
 
 const styles = StyleSheet.create({
   // The main container for the screen.
@@ -28,14 +28,14 @@ const styles = StyleSheet.create({
 
   // The container for the "More coming soon..." message at the end of the list.
   footer: {
-    marginTop: 20,
-    paddingBottom: 20,
+    marginTop: 10,
+    paddingBottom: 10,
     alignItems: 'center',
   },
 
   // The text style for the footer message.
   footerText: {
-    fontSize: 18,
+    fontSize: 12,
     color: themeColors.secondaryText,
     fontFamily: fonts.heading,
   },

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { themeColors, fonts } from '@styles/globalStyles/themeColors'; // Import both colors and fonts
+import { themeColors, fonts } from '../../globalStyles/themeColors'; // Import both colors and fonts
 
 const styles = StyleSheet.create({
   // The main card container.

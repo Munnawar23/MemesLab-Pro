@@ -6,7 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import MainTabNavigator from './MainTabNavigator';
 import SplashScreen from '@screens/SplashScreen';
 import CreateMemeScreen from '@screens/CreateMemeScreen';
-import { themeColors, fonts } from '@styles/globalStyles/themeColors';
+import { themeColors, fonts } from '../styles/globalStyles/themeColors';
 
 // Defines the routes available in the root stack navigator.
 export type RootStackParamList = {
@@ -43,12 +43,9 @@ const AppNavigator = () => {
                 height: 100,
               },
               headerTintColor: themeColors.badgeText,
-              // The style for the header's title text.
               headerTitleStyle: {
-                // Use the heading font to match the style of the main tab screens.
                 fontFamily: fonts.heading,
-                // Add a specific font size for perfect consistency across all headers.
-                fontSize: 18,
+                fontSize: 16,
               },
               title: 'Create Meme',
             }}

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { themeColors, fonts } from '@styles/globalStyles/themeColors';
+import { themeColors, fonts } from '../../globalStyles/themeColors';
 
 const styles = StyleSheet.create({
   modalBackground: {
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 
   // The title text of the modal.
   modalTitle: {
-    fontSize: 20,
+    fontSize: 16,
     marginBottom: 16,
     textAlign: 'center',
     color: themeColors.text,
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     marginBottom: 12,
-    fontSize: 16,
+    fontSize: 14,
     color: themeColors.text,
     borderColor: themeColors.border,
     fontFamily: fonts.bodyMedium, // Use the standard body font for input.

@@ -1,3 +1,5 @@
+// CreateScreen.js
+
 import React, { useState, useRef } from 'react';
 import {
   View,
@@ -5,7 +7,6 @@ import {
   Alert,
   Platform,
   KeyboardAvoidingView,
-  ScrollView,
   ActivityIndicator,
   TouchableOpacity,
   Text,
@@ -13,6 +14,7 @@ import {
   Modal,
 } from 'react-native';
 import { useRoute, useNavigation, RouteProp, NavigationProp } from '@react-navigation/native';
+import { useHeaderHeight } from '@react-navigation/elements';
 import ViewShot from 'react-native-view-shot';
 import LottieView from 'lottie-react-native';
 
@@ -33,7 +35,7 @@ type RootStackParamList = { Create: { imageUri: string }; Main: { screen: string
 type CreateScreenRouteProp = RouteProp<RootStackParamList, 'Create'>;
 type CreateScreenNavigationProp = NavigationProp<RootStackParamList>;
 
-// A predefined palette of text colors for the user to choose from.
+// Predefined text color palette for the user to choose from.
 const TEXT_COLORS = ['#FFFFFF', '#000000', '#FFD700', '#FF4500', '#32CD32', '#1E90FF', '#9400D3'];
 
 const { width } = Dimensions.get('window');
@@ -45,7 +47,9 @@ const CreateScreen = () => {
   const navigation = useNavigation<CreateScreenNavigationProp>();
   const { imageUri } = route.params;
 
-  // Manages the state of all draggable text input overlays.
+  const headerHeight = useHeaderHeight();
+
+  // State for draggable text input overlays.
   const [textInputs, setTextInputs] = useState<TextInputState[]>([
     { id: Date.now(), text: '', initialY: 10 },
   ]);
@@ -55,7 +59,7 @@ const CreateScreen = () => {
   const [showLottieAnimation, setShowLottieAnimation] = useState(false);
   const viewShotRef = useRef<ViewShot>(null);
 
-  // Adds a new draggable text input field to the canvas.
+  // Add a new draggable text input field to the canvas.
   const addTextInput = () => {
     const newTextInput: TextInputState = {
       id: Date.now(),
@@ -65,7 +69,7 @@ const CreateScreen = () => {
     setTextInputs((currentInputs) => [...currentInputs, newTextInput]);
   };
 
-  // Updates the text content of a specific input field.
+  // Update the text content of a specific input field.
   const handleTextChange = (id: number, newText: string) => {
     setTextInputs((currentInputs) =>
       currentInputs.map((input) =>
@@ -74,16 +78,12 @@ const CreateScreen = () => {
     );
   };
 
-  // Removes a text input field, ensuring at least one remains.
+  // Remove a text input field. (No restriction now.)
   const handleCloseText = (id: number) => {
-    if (textInputs.length <= 1) {
-      Alert.alert('Cannot Remove', 'At least one text field must be visible.');
-      return;
-    }
     setTextInputs((currentInputs) => currentInputs.filter((input) => input.id !== id));
   };
 
-  // Captures the meme canvas as an image, saves it to local storage, and triggers a success animation.
+  // Capture the meme canvas as an image, save it locally, and show success animation.
   const handleSave = async () => {
     if (!viewShotRef.current) return;
     setIsSaving(true);
@@ -95,7 +95,7 @@ const CreateScreen = () => {
         return;
       }
       await saveMeme({ imageUri: uri });
-      setShowLottieAnimation(true); // Trigger the success animation.
+      setShowLottieAnimation(true); // Show success animation.
     } catch (err) {
       console.error(err);
       Alert.alert('Error', 'Something went wrong while saving the meme.');
@@ -104,7 +104,7 @@ const CreateScreen = () => {
     }
   };
 
-  // Navigates the user to the "My Memes" screen after the success animation finishes.
+  // Navigate to "My Memes" screen after the success animation ends.
   const onLottieAnimationFinish = () => {
     setShowLottieAnimation(false);
     navigation.navigate('Main', { screen: 'My Memes' });
@@ -112,15 +112,14 @@ const CreateScreen = () => {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={styles.container}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? headerHeight : 0}
     >
-      <ScrollView
-        contentContainerStyle={styles.scrollContainer}
-        keyboardShouldPersistTaps="handled"
-      >
+      <View style={styles.contentContainer}>
         <Text style={styles.headerText}>Show your Creativity</Text>
 
+        {/* Canvas with image and draggable text inputs */}
         <ViewShot
           ref={viewShotRef}
           style={styles.canvasContainer}
@@ -142,6 +141,7 @@ const CreateScreen = () => {
           ))}
         </ViewShot>
 
+        {/* Color palette for text color selection */}
         <View style={styles.colorPaletteContainer}>
           <Text style={styles.paletteTitle}>Choose Text Color</Text>
           <View style={styles.colorPalette}>
@@ -159,10 +159,12 @@ const CreateScreen = () => {
           </View>
         </View>
 
+        {/* Add another text button */}
         <TouchableOpacity style={styles.addTextButton} onPress={addTextInput}>
           <Text style={styles.addTextButtonText}>+ Add Another Text</Text>
         </TouchableOpacity>
 
+        {/* Save button */}
         <View style={styles.buttonContainer}>
           {isSaving ? (
             <ActivityIndicator size="large" color={themeColors.primary} />
@@ -170,9 +172,9 @@ const CreateScreen = () => {
             <Button label="Save Meme" onPress={handleSave} disabled={isSaving} />
           )}
         </View>
-      </ScrollView>
+      </View>
 
-      {/* A full-screen modal to display the success animation. */}
+      {/* Success animation modal */}
       <Modal
         visible={showLottieAnimation}
         transparent={false}

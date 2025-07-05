@@ -1,11 +1,11 @@
 import { StyleSheet } from 'react-native';
-import { themeColors, fonts } from '@styles/globalStyles/themeColors'; // Import both colors and fonts
+import { themeColors, fonts } from '../../globalStyles/themeColors'; // Import both colors and fonts
 
 const styles = StyleSheet.create({
   // Outer container for the card and its title.
   // Sized to fit two cards per row with spacing.
   cardContainer: {
-    width: '48%', // Use 48% to allow for space-between justification in the parent.
+    width: '47%', // Use 47% to allow for space-between justification in the parent.
     marginBottom: 20,
   },
 
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   // The title text displayed below the card.
   cardTitle: {
     marginTop: 8,
-    fontSize: 14,
+    fontSize: 12,
     textAlign: 'center',
     color: themeColors.text,
     // Use the medium-weight body font from our central font definition.

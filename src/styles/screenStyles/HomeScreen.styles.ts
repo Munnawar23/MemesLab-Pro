@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { themeColors, fonts } from '@styles/globalStyles/themeColors';
+import { themeColors, fonts } from '../globalStyles/themeColors';
 
 const styles = StyleSheet.create({
   // --- Screen Structure ---
@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     backgroundColor: themeColors.background,
   },
   scrollContent: {
-    paddingBottom: 5,
+    paddingBottom: 3,
   },
   mainHeader: {
     paddingTop: 20,
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   carouselCardText: {
-    fontSize: 16,
+    fontSize: 14,
     color: themeColors.badgeText, // Use light text for contrast.
     textAlign: 'center',
     fontFamily: fonts.bodyBold,
@@ -74,13 +74,13 @@ const styles = StyleSheet.create({
 
   // --- Typography ---
   primarySectionTitle: {
-    fontSize: 16,
+    fontSize: 14,
     marginBottom: 8,
     color: themeColors.text,
     fontFamily: fonts.heading, 
   },
   sectionDescription: {
-    fontSize: 15,
+    fontSize: 14,
     marginBottom: 20,
     color: themeColors.secondaryText,
     fontFamily: fonts.body,
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   createOptionText: {
-    fontSize: 16,
+    fontSize: 13,
     textAlign: 'center',
     color: themeColors.text,
     fontFamily: fonts.bodyMedium,
@@ -130,13 +130,13 @@ const styles = StyleSheet.create({
     backgroundColor: themeColors.background,
   },
   footerTitle: {
-    fontSize: 18,
+    fontSize: 15,
     color: themeColors.text,
     marginBottom: 8,
     fontFamily: fonts.heading,
   },
   footerText: {
-    fontSize: 15,
+    fontSize: 14,
     color: themeColors.secondaryText,
     textAlign: 'center',
     marginBottom: 10,
