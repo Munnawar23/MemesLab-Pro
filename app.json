@@ -8,9 +8,9 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./src/assets/images/splash-icon.png",
+      "image": "./src/assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FFECB3"
     },
     "ios": {
       "bundleIdentifier": "com.munnawar.memeslabpro",
@@ -21,8 +21,8 @@
       "package": "com.munnawar.memeslabpro",
       "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./src/assets/images/foreground.png",
+        "backgroundColor": "#FFECB3"
       },
       "permissions": [],
       "softwareKeyboardLayoutMode": "resize"
@@ -41,6 +41,11 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "owner": "munnawar"
+    "owner": "munnawar",
+    "platforms": [
+      "android",
+      "ios",
+      "web"
+    ]
   }
 }
