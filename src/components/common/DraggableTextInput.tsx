@@ -1,7 +1,3 @@
-// No changes were needed in this component file.
-// All styling is correctly handled by the stylesheet.
-// The provided code was already well-structured.
-
 import React from 'react';
 import { TextInput, TouchableOpacity, Text, View } from 'react-native';
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-gesture-handler';
@@ -24,7 +20,6 @@ interface Props {
   isSaving?: boolean;
 }
 
-// A draggable and editable text input, primarily for the meme editor canvas.
 const DraggableTextInput = ({
   id,
   value,
@@ -38,7 +33,6 @@ const DraggableTextInput = ({
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(initialY);
 
-  // Handles drag gestures to update the text's position on the canvas.
   const onGestureEvent = useAnimatedGestureHandler<
     PanGestureHandlerGestureEvent,
     { x: number; y: number }
@@ -53,7 +47,6 @@ const DraggableTextInput = ({
     },
   });
 
-  // Creates the animated style for the container based on shared values.
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [
       { translateX: translateX.value },
@@ -61,12 +54,9 @@ const DraggableTextInput = ({
     ],
   }));
 
-  // Renders a single drag handle at a specified corner.
   const renderDragHandle = (positionStyle: object, key: string) => (
     <PanGestureHandler key={key} onGestureEvent={onGestureEvent}>
-      <Animated.View style={[styles.dragHandle, positionStyle]}>
-        <Text style={styles.dragHandleIcon}>⬤</Text>
-      </Animated.View>
+      <Animated.View style={[styles.dragHandle, positionStyle]} />
     </PanGestureHandler>
   );
 
@@ -78,40 +68,45 @@ const DraggableTextInput = ({
         { width: canvasWidth },
       ]}
     >
-      <View
-        style={[
-          styles.textInputWrapper,
-          isSaving && { borderWidth: 0, backgroundColor: 'transparent' },
-        ]}
-      >
-        <TextInput
-          style={[styles.memeText, { color: textColor }]}
-          placeholder="ADD TEXT HERE"
-          placeholderTextColor={textColor}
-          value={value}
-          onChangeText={(text) => onChangeText(id, text)}
-          multiline
-          scrollEnabled={false}
-          editable={!isSaving}
-        />
+      <PanGestureHandler onGestureEvent={onGestureEvent} enabled={!isSaving}>
+        <Animated.View>
+          <View
+            style={[
+              styles.textInputWrapper,
+              isSaving && { borderWidth: 0, backgroundColor: 'transparent' },
+            ]}
+          >
+            <TextInput
+              style={[styles.memeText, { color: textColor }]}
+              placeholder="ADD TEXT HERE"
+              placeholderTextColor={textColor}
+              value={value}
+              onChangeText={(text) => onChangeText(id, text)}
+              multiline
+              scrollEnabled={false}
+              editable={!isSaving}
+            />
 
-        {/* The close button and drag handles are hidden when saving the final image. */}
-        {!isSaving && (
-          <>
-            <TouchableOpacity
-              style={styles.closeButtonCenter}
-              onPress={() => onClose(id)}
-            >
-              <Text style={styles.closeButtonText}>✕</Text>
-            </TouchableOpacity>
+            {!isSaving && (
+              <>
+                <View style={styles.closeButtonContainer}>
+                  <TouchableOpacity
+                    style={styles.closeButton}
+                    onPress={() => onClose(id)}
+                  >
+                    <Text style={styles.closeButtonText}>✕</Text>
+                  </TouchableOpacity>
+                </View>
 
-            {renderDragHandle(styles.dragHandleTopLeft, 'tl')}
-            {renderDragHandle(styles.dragHandleTopRight, 'tr')}
-            {renderDragHandle(styles.dragHandleBottomLeft, 'bl')}
-            {renderDragHandle(styles.dragHandleBottomRight, 'br')}
-          </>
-        )}
-      </View>
+                {renderDragHandle(styles.dragHandleTopLeft, 'tl')}
+                {renderDragHandle(styles.dragHandleTopRight, 'tr')}
+                {renderDragHandle(styles.dragHandleBottomLeft, 'bl')}
+                {renderDragHandle(styles.dragHandleBottomRight, 'br')}
+              </>
+            )}
+          </View>
+        </Animated.View>
+      </PanGestureHandler>
     </Animated.View>
   );
 };

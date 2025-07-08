@@ -2,24 +2,23 @@ import { StyleSheet } from 'react-native';
 import { themeColors, fonts } from '../../globalStyles/themeColors';
 
 const styles = StyleSheet.create({
-  // The main container that is positioned absolutely and can be moved.
   draggableContainer: {
     position: 'absolute',
     alignItems: 'center',
   },
 
-  // A wrapper around the text input, providing a dashed border for visual guidance.
   textInputWrapper: {
-    width: '80%',
+    alignSelf: 'center',
+    maxWidth: '90%',
     padding: 8,
     borderWidth: 2,
     borderStyle: 'dashed',
-    borderColor: 'rgba(0, 0, 0, 0.6)', // Semi-transparent for subtlety.
+    borderColor: 'rgba(0, 0, 0, 0.6)',
     borderRadius: 10,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)', // Semi-transparent background.
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    minWidth: 150,
   },
 
-  // The style for the meme text itself.
   memeText: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -27,77 +26,51 @@ const styles = StyleSheet.create({
     textShadowColor: 'rgba(0, 0, 0, 0.95)',
     textShadowOffset: { width: -2, height: 2 },
     textShadowRadius: 10,
-    // Use the impactful heading font for meme text.
     fontFamily: fonts.heading,
     backgroundColor: 'transparent',
     paddingHorizontal: 5,
   },
 
-  // The central close (x) button positioned above the text input.
-  closeButtonCenter: {
+  closeButtonContainer: {
     position: 'absolute',
-    top: -15,
-    left: '50%',
-    transform: [{ translateX: -10 }],
-    backgroundColor: "#fff",
+    top: -15, 
+    left: 0,  
+    right: 0,
+    alignItems: 'center', 
+  },
+
+  closeButton: {
+    backgroundColor: '#fff',
     width: 20,
     height: 20,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: themeColors.badgeText, // Contrasting border.
+    borderColor: themeColors.badgeText,
   },
 
-  // The 'x' character inside the close button.
   closeButtonText: {
-    color: themeColors.badgeText, // Light text for contrast.
+    color: themeColors.badgeText,
     fontWeight: 'bold',
     fontSize: 12,
     lineHeight: 14,
   },
 
-  // The generic style applied to all four drag handles.
   dragHandle: {
     position: 'absolute',
-    width: 20,
-    height: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    borderRadius: 10,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderWidth: 2,
+    borderColor: themeColors.primary,
   },
 
-  // The icon inside the drag handle.
-  dragHandleIcon: {
-    fontSize: 10,
-    color: themeColors.badgeText, // Light color for visibility.
-    fontWeight: 'bold',
-  },
-
-  // Position for the top-left drag handle.
-  dragHandleTopLeft: {
-    top: -10,
-    left: -10,
-  },
-
-  // Position for the top-right drag handle.
-  dragHandleTopRight: {
-    top: -10,
-    right: -10,
-  },
-
-  // Position for the bottom-left drag handle.
-  dragHandleBottomLeft: {
-    bottom: -10,
-    left: -10,
-  },
-
-  // Position for the bottom-right drag handle.
-  dragHandleBottomRight: {
-    bottom: -10,
-    right: -10,
-  },
+  dragHandleTopLeft: { top: -12, left: -12 },
+  dragHandleTopRight: { top: -12, right: -12 },
+  dragHandleBottomLeft: { bottom: -12, left: -12 },
+  dragHandleBottomRight: { bottom: -12, right: -12 },
 });
 
 export default styles;

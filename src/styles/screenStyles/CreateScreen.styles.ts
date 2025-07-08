@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   // --- Lottie Animation Modal ---
   lottieModalContainer: {
     flex: 1,
-    backgroundColor: '#FFECB3', 
+    backgroundColor: '#FF6B35', 
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',

@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   flex: 1,
   justifyContent: 'center',
   alignItems: 'center',
-  backgroundColor: '#FFECB3', // soft yellow now
+  backgroundColor: '#FF6B35', // soft yellow now
   position: 'absolute',
   top: 0,
   left: 0,

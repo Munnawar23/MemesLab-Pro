@@ -33,7 +33,7 @@ const MainTabNavigator = () => {
           fontFamily: fonts.heading, 
           fontSize: 16,
         },
-        tabBarActiveTintColor: themeColors.badgeText,
+        tabBarActiveTintColor: themeColors.primary,
         tabBarInactiveTintColor: themeColors.secondaryText, 
         tabBarStyle: {
           backgroundColor: themeColors.card,

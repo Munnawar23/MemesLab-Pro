@@ -17,20 +17,20 @@ export interface AppTheme {
 }
 
 export const themeColors: AppTheme = {
-  background: '#FFFDE7',            
-  card: '#FFFFFF',                  
-  text: '#5D4037',                  
-  primary: '#FFECB3',              
-  secondaryText: '#8D6E63',       
-  border: '#FFEE58',                
-  placeholder: '#BDBDBD',           
-  badgeBackground: '#FFD54F',       
-  badgeText: '#5D4037',             
-  accent: '#FFB74D',
-  mutedBackground: '#FFF9C4',       
-  quizCardBackground: '#FFF8E1',    
-  quizButtonCorrect: '#AED581',    
-  quizButtonDefault: '#F5F5F5',     
+  background: '#2D1B69',            // Deep retro purple
+  card: '#4A148C',                  // Rich violet for cards
+  text: '#E1BEE7',                  // Light lavender for main text
+  primary: '#FF6B35',               // Vibrant orange primary
+  secondaryText: '#B39DDB',         // Muted purple for secondary text
+  border: '#FF8A65',                // Coral border accent
+  placeholder: '#9575CD',           // Medium purple for placeholders
+  badgeBackground: '#FFB74D',       // Warm amber for badges
+  badgeText: '#2D1B69',             // Dark purple text on badges
+  accent: '#FF5722',                // Deep orange accent
+  mutedBackground: '#3F2A7A',       // Slightly lighter purple for muted areas
+  quizCardBackground: '#512DA8',    // Deep purple for quiz cards
+  quizButtonCorrect: '#4CAF50',     // Classic green for correct answers
+  quizButtonDefault: '#7986CB',     // Retro blue for default buttons
 };
 
 // Fonts remain unchanged

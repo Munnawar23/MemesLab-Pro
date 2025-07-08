@@ -26,11 +26,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
     marginHorizontal: 20, // Creates a visual gap between carousel items.
-    height: 200,
+    height: 187,
   },
   lottieAnimation: {
     width: '80%',
-    height: 160,
+    height: 130,
     marginBottom: 5,
   },
   carouselCardText: {
